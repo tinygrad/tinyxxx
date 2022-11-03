@@ -37,9 +37,35 @@ We are the tiny corp
 <p>FAQ:</p>
 
 <em>Is tinygrad used anywhere?</em><br/></br>
-tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, and allows for attention (SNPE only allows fixed weights).
-<br/><br/>
+tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).
+<br/><br/><br/>
 
 <em>Is tinygrad inference only?</em><br/></br>
-No! It supports full forward and backward passes with autodiff. <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/mlops.py">This</a> is at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.
+No! It supports full forward and backward passes with autodiff. <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/mlops.py">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.
+<br/><br/><br/>
+
+<em>How can I use tinygrad for my next ML project?</em><br/></br>
+Follow the installation instructions on <a href="https://github.com/geohot/tinygrad">the tinygrad repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while tinygrad is in alpha, so be warned, though it's been fairly stable for a while.
+<br/><br/><br/>
+
+<em>When will tinygrad leave alpha?</em><br/></br>
+When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch. We also want the speed to be good on the M1. ETA, Q2 next year.
+<br/><br/><br/>
+
+<em>How is tinygrad faster than PyTorch?</em><br/></br>
+For most use cases it isn't yet, but it will be. It has three advantages:
+<li>It compiles a custom kernel for every operation, allowing extreme shape specialization.</li>
+<li>All tensors are lazy, so it can aggressively fuse operations.</li>
+<li>The backend is 10x+ simpler, meaning optimizing one kernel makes everything fast.</li>
+<br/><br/>
+
+<em>How can I work with the tiny corporation?</em><br/></br>
+
+Email me, geohot@gmail.com. We are looking for contracts and sponsorships to improve various aspects of tinygrad.
+<br/><br/><br/>
+
+<em>How can I work for the tiny corporation?</em><br/></br>
+
+Contribute to <a href="https://github.com/geohot/tinygrad">tinygrad</a> on GitHub.
+<br/><br/>
 
