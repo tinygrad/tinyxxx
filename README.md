@@ -7,4 +7,6 @@
 
 The tiny corp can help. We can port our framework to any accelerator.
 
-Want to no more checkout [tinygrad.org](https://tinygrad.org/)
+Want to no more checkout [tinygrad.org](https://tinygrad.org/) 
+
+Contribute to [tinygrad](https://github.com/geohot/tinygrad) on GitHub. 
