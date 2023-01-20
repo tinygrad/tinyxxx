@@ -1,0 +1,55 @@
+---
+title: Frequently asked questions
+---
+
+***Is tinygrad used anywhere?***
+
+tinygrad is used in [openpilot](https://github.com/commaai/openpilot) to run the driving model on the Snapdragon 845 GPU.
+It replaces [SNPE](https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html).
+tinygrad is faster, supports loading ONNX files, supports training, and allows for attention (SNPE only allows fixed weights).
+
+***Is tinygrad inference only?***
+
+No!
+tinygrad supports full forward and backward passes with autodiff.
+[This](https://github.com/geohot/tinygrad/blob/master/tinygrad/mlops.py) is implemented at a level of abstraction higher than the accelerator's specific code, so a tinygrad port gets you this for free.
+
+***How can I use tinygrad for my next ML project?***
+
+Follow the installation instructions on the tinygrad [repo](https://github.com/geohot/tinygrad).
+It has a similar API to PyTorch, yet simpler and more refined.
+Alhough, while tinygrad is in alpha, it is less stable.
+So be warned (even though it's been fairly stable for a while).
+
+***When will tinygrad leave alpha?***
+
+When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch.
+We also want the speed to be good on the M1.
+ETA, Q2 next year.
+
+***How is tinygrad faster than PyTorch?***
+
+For most use cases it isn't yet, but it will be.
+tinygrad has three advantages:
+It compiles a custom kernel for every operation, allowing extreme shape specialization.
+All tensors are lazy, so it can aggressively fuse operations.
+The backend is 10x simpler that PyTorch, meaning optimizing one kernel makes everything fast.
+
+***How can I work with the tiny corporation?***
+
+Email me, at geohot@gmail.com.
+We are looking for contracts and sponsorships to improve various aspects of tinygrad.
+I would also consider an internship where I work on tinygrad in the context of a company.
+
+***How can I work for the tiny corporation?***
+
+Contribute to [tinygrad](https://github.com/geohot/tinygrad) on GitHub.
+
+***Can I invest in the tiny corporation***
+
+It's too tiny to have any equity to sell.
+We are looking for contracts and sponsorships.
+
+***When are you launching your governance token? Will there be an airdrop?***
+
+Bruh.

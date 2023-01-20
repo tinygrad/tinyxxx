@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>tinygrad</title>
+<title>tinygrad - Frequently asked questions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">get started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./faq.html"><i class="bi bi-question-circle" role="img">
+    <a class="nav-link active" href="./faq.html" aria-current="page"><i class="bi bi-question-circle" role="img">
 </i> 
  <span class="menu-text">faq</span></a>
   </li>  
@@ -112,79 +112,50 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">tinygrad</h1>
-            <p class="subtitle lead">You like pytorch? You like micrograd? You love tinygrad!</p>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Frequently asked questions</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p><br> <br></p>
-<center>
-<a> <img src="images/logo.png" alt="tinygrad logo" width="400px"> </a>
-</center>
-<p><br> <br> <br></p>
-<div class="grid">
-<div class="g-col-12 g-col-md-4">
-<div class="card mb-2">
-<div class="card-body">
-<p class="card-title">
-<big><b>tiny corp</b></big>
-</p>
-<p class="card-text">
-We are the tiny corp! The developer and maintainer of the tinygrad framework.
-</p>
-<p><a href="tiny_corp.html" class="btn btn-primary stretched-link">Read more</a></p>
-</div>
-</div>
-</div>
-<div class="g-col-12 g-col-md-4">
-<div class="card mb-2">
-<div class="card-body">
-<p class="card-title">
-<big><b>tinygrad</b></big>
-</p>
-<p class="card-text">
-Want a tiny deep learning framework? You want tinygrad. Learn what it can do.
-</p>
-<p><a href="introduction.html" class="btn btn-primary stretched-link">Read more</a></p>
-</div>
-</div>
-</div>
-<div class="g-col-12 g-col-md-4">
-<div class="card mb-2">
-<div class="card-body">
-<p class="card-title">
-<big><b>get started</b></big>
-</p>
-<p class="card-text">
-Get started using tinygrad for your projects through a simple introduction.
-</p>
-<p><a href="get_started.html" class="btn btn-primary stretched-link">Read more</a></p>
-</div>
-</div>
-</div>
-</div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><strong><em>Is tinygrad used anywhere?</em></strong></p>
+<p>tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>. tinygrad is faster, supports loading ONNX files, supports training, and allows for attention (SNPE only allows fixed weights).</p>
+<p><strong><em>Is tinygrad inference only?</em></strong></p>
+<p>No! tinygrad supports full forward and backward passes with autodiff. <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/mlops.py">This</a> is implemented at a level of abstraction higher than the accelerator’s specific code, so a tinygrad port gets you this for free.</p>
+<p><strong><em>How can I use tinygrad for my next ML project?</em></strong></p>
+<p>Follow the installation instructions on the tinygrad <a href="https://github.com/geohot/tinygrad">repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Alhough, while tinygrad is in alpha, it is less stable. So be warned (even though it’s been fairly stable for a while).</p>
+<p><strong><em>When will tinygrad leave alpha?</em></strong></p>
+<p>When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch. We also want the speed to be good on the M1. ETA, Q2 next year.</p>
+<p><strong><em>How is tinygrad faster than PyTorch?</em></strong></p>
+<p>For most use cases it isn’t yet, but it will be. tinygrad has three advantages: It compiles a custom kernel for every operation, allowing extreme shape specialization. All tensors are lazy, so it can aggressively fuse operations. The backend is 10x simpler that PyTorch, meaning optimizing one kernel makes everything fast.</p>
+<p><strong><em>How can I work with the tiny corporation?</em></strong></p>
+<p>Email me, at geohot@gmail.com. We are looking for contracts and sponsorships to improve various aspects of tinygrad. I would also consider an internship where I work on tinygrad in the context of a company.</p>
+<p><strong><em>How can I work for the tiny corporation?</em></strong></p>
+<p>Contribute to <a href="https://github.com/geohot/tinygrad">tinygrad</a> on GitHub.</p>
+<p><strong><em>Can I invest in the tiny corporation</em></strong></p>
+<p>It’s too tiny to have any equity to sell. We are looking for contracts and sponsorships.</p>
+<p><strong><em>When are you launching your governance token? Will there be an airdrop?</em></strong></p>
+<p>Bruh.</p>
 
 
 

@@ -6,6 +6,19 @@ website:
   description: "You like pytorch? You like micrograd? You love tinygrad!"
   favicon: images/favicon.ico
   navbar:
+    left:
+      - text: tinycorp
+        icon: building
+        href: tiny_corp.qmd
+      - text: tinygrad
+        icon: building
+        href: introduction.qmd
+      - text: get started
+        icon: flag
+        href: get_started.qmd
+      - text: faq
+        icon: question-circle
+        href: faq.qmd
     right:
       - icon: github
         href: https://github.com/geohot/tinygrad
@@ -17,6 +30,7 @@ format:
   html:
     theme: minty
     toc: true
+    page-layout: full
 
 
 

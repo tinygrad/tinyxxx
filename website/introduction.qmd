@@ -1,0 +1,20 @@
+---
+title: Introduction to tinygrad
+---
+
+::: {#fig-examples layout-ncol=3}
+
+![Stable diffusion](images/img1.png){#fig-stable}
+
+![GANs](images/img2.png){#fig-gans}
+
+![Yolo](images/img3.png){#fig-yolo}
+
+tinygrad supports Stable Diffusion, GANs and Yolo.
+:::
+
+This may not be the best deep learning framework, but it is a deep learning framework!
+For something in between [pytorch](https://github.com/pytorch/pytorch) and [karpathy/micrograd](https://github.com/karpathy/micrograd).
+tinygrad will always be below 1000 lines.
+If it isn't, we will revert commits until it becomes smaller.
+Due to its extreme simplicity, it aims to be the easiest framework to add new accelerators to, with support for both inference and training.
