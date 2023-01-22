@@ -1,0 +1,54 @@
+---
+title: "tinygrad"
+subtitle: "You like pytorch? You like micrograd? You love tinygrad!"
+title-block-banner: true
+toc: false
+---
+
+<center>
+<a>
+<img src="images/logo.png" alt="tinygrad logo" width="400px"/>
+</a>
+</center>
+
+<br>
+
+:::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+<div class="card mb-2">
+<div class="card-body">
+<p class="card-title"><big><b>tiny corp</b></big></p>
+<p class="card-text">
+We are the tiny corp! The developer and maintainer of the tinygrad deep learning framework.
+</p>
+<a href="tiny_corp.html" class="btn btn-primary stretched-link">Read more</a>
+</div>
+</div>
+:::
+
+::: {.g-col-12 .g-col-md-4}
+<div class="card mb-2">
+<div class="card-body">
+<p class="card-title"><big><b>tinygrad</b></big></p>
+<p class="card-text">
+Want a tiny deep learning framework? You want tinygrad. Learn what it can do for your projects!
+</p>
+<a href="introduction.html" class="btn btn-primary stretched-link">Read more</a>
+</div>
+</div>
+:::
+
+::: {.g-col-12 .g-col-md-4}
+<div class="card mb-2">
+<div class="card-body">
+<p class="card-title"><big><b>get started</b></big></p>
+<p class="card-text">
+Get started using tinygrad for your projects, sitting through a simple introduction!
+</p>
+<a href="get_started.html" class="btn btn-primary stretched-link">Read more</a>
+</div>
+</div>
+:::
+
+::::
