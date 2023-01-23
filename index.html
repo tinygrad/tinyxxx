@@ -28,7 +28,7 @@ tinygrad: A simple and powerful neural network framework
 <li><b>UnaryOps</b> operate on one tensor and run elementwise. RELU, LOG, RECIPROCAL, etc...</li>
 <li><b>BinaryOps</b> operate on two tensors and run elementwise to return one. ADD, MUL, etc...</li>
 <li><b>ReduceOps</b> operate on one tensor and return a smaller tensor. SUM, MAX</li>
-<li><b>MovementOps</b> operate on one tensor and move the data around, copy-free with <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/shapetracker.py">ShapeTracker</a>. RESHAPE, PERMUTE, EXPAND, etc...</li>
+<li><b>MovementOps</b> operate on one tensor and move the data around, copy-free with <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/shape/__init__.py">ShapeTracker</a>. RESHAPE, PERMUTE, EXPAND, etc...</li>
 
 <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
 
