@@ -37,6 +37,7 @@ tinygrad: A simple and powerful neural network framework
 <b>update</b>: tinygrad can produce 100% portable C code to run your models<br/><br/>
 
 # this was run on server to generate the C so you don't have to<br/>
+# it runs an EfficientNet-B0 trained on ImageNet to classify the 1000 default categories<br/>
 # CLANG=1 GPU=1 python3 examples/compile_efficientnet.py | gzip > recognize.c.gz<br/><br/>
 
 curl https://tinygrad.org/recognize.c.gz | gunzip | clang -O2 -lm -x c - -o recognize && curl https://media.istockphoto.com/photos/hen-picture-id831791190 | DEBUG=1 ./recognize
