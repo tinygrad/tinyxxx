@@ -33,6 +33,15 @@ tinygrad: A simple and powerful neural network framework
 <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
 
 <hr>
+<br/>
+<b>update</b>: tinygrad can produce 100% portable C code to run your models<br/><br/>
+
+# this was run on server to generate the C so you don't have to<br/>
+# CLANG=1 GPU=1 python3 examples/compile_efficientnet.py | gzip > recognize.c.gz<br/><br/>
+
+curl https://tinygrad.org/recognize.c.gz | gunzip | clang -O2 -x c - -o recognize && curl https://media.istockphoto.com/photos/hen-picture-id831791190 | DEBUG=1 time ./recognize 
+<br/><br/>
+<hr>
 
 <p>FAQ:</p>
 
