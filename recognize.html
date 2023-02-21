@@ -40,7 +40,7 @@ function _fd_read(fd, iov, iovcnt, pnum) {
     var len = HEAPU32[(((iov)+(4))>>2)];
     num += len
     iov += 8;
-    console.log("read", fd, ptr, len, pnum);
+    //console.log("read", fd, ptr, len, pnum);
     for (var j = 0; j < len; j++) {
       HEAPU8[ptr] = img[img_ptr];
       ptr += 1;
@@ -96,6 +96,7 @@ async function use_webcam() {
   }, 200);
 }
 
+progArrayBuffer = null
 async function run_net_w_resource(resource) {
   document.getElementById('result').innerHTML = "pending..."
   if (resource == "") {
@@ -103,11 +104,10 @@ async function run_net_w_resource(resource) {
     alert(err)
     throw new Error(err)
   }
-  console.log(resource)
+  //console.log(resource)
   //const resource = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/160px-Banana-Single.jpg"
   const response = await fetch(resource)
   if (!response.ok) {
-    console.log(response)
     var err = "sir. that is not a good URL. try a new one"
     alert(err)
     throw new Error(err)
@@ -116,13 +116,13 @@ async function run_net_w_resource(resource) {
 
   const dat = await response.arrayBuffer()
   img = new Uint8Array(dat)
-  console.log(img)
   img_ptr = 0
 
   // emcc recognize.c -o recognize.html -s TOTAL_MEMORY=134217728
-  const prog = await fetch("/recognize.wasm")
-  const progArrayBuffer = await prog['arrayBuffer']()
-  console.log(progArrayBuffer)
+  if (!progArrayBuffer) {
+    const prog = await fetch("/recognize.wasm")
+    progArrayBuffer = await prog['arrayBuffer']()
+  }
   var wasmImports = {
     '__assert_fail': ___assert_fail,
     "emscripten_memcpy_big": _emscripten_memcpy_big,
