@@ -1,0 +1,213 @@
+<html>
+<script>
+function UTF8ToString(ptr, len=0x100) {
+  var l = []
+  while (HEAPU8[ptr] != 0 && len != 0) {
+    l.push(HEAPU8[ptr])
+    ptr += 1;
+    len -= 1;
+  }
+  return String.fromCharCode(...l)
+}
+function ___assert_fail(condition, filename, line, func) {
+  err = "assert "+UTF8ToString(condition) + " " + UTF8ToString(filename) + " " + line + " " + UTF8ToString(func)
+  document.getElementById('result').innerHTML += err
+  console.log(err)
+}
+
+var first_write = false
+function _fd_write(fd, iov, iovcnt, pnum) {
+  var num = 0
+  for (var i = 0; i < iovcnt; i++) {
+    var ptr = HEAPU32[((iov)>>2)];
+    var len = HEAPU32[(((iov)+(4))>>2)];
+    num += len
+    iov += 8;
+    console.log("write", fd, ptr, len, pnum);
+    if (first_write) {
+      document.getElementById('result').innerHTML = ""
+      first_write = false
+    }
+    document.getElementById('result').innerHTML += UTF8ToString(ptr, len)
+  }
+  HEAPU32[((pnum)>>2)] = num;
+}
+
+function _fd_read(fd, iov, iovcnt, pnum) {
+  var num = 0
+  for (var i = 0; i < iovcnt; i++) {
+    var ptr = HEAPU32[((iov)>>2)];
+    var len = HEAPU32[(((iov)+(4))>>2)];
+    num += len
+    iov += 8;
+    console.log("read", fd, ptr, len, pnum);
+    for (var j = 0; j < len; j++) {
+      HEAPU8[ptr] = img[img_ptr];
+      ptr += 1;
+      img_ptr += 1;
+    }
+  }
+  HEAPU32[((pnum)>>2)] = num;
+}
+
+function _fd_seek(fd, offset_low, offset_high, whence, newOffset) {
+  console.log("seek", fd, offset_high, offset_low, whence, newOffset)
+  img_ptr += offset_low
+}
+
+function functionNotImplemented2() {
+  throw new Error("sir. this function has not been implemented ALSO. please contact your nearest development center for help.")
+}
+
+function functionNotImplemented() {
+  throw new Error("sir. this function has not been implemented. please contact your nearest development center for help.")
+}
+
+function _emscripten_memcpy_big(dest, src, num) {
+  HEAPU8.copyWithin(dest, src, src + num);
+}
+
+function _emscripten_resize_heap(requestedSize) {
+  console.log("your memory is big", requestedSize)
+}
+
+webcam_enabled = false;
+async function use_webcam() {
+  if (!webcam_enabled) {
+    let stream = await navigator.mediaDevices.getUserMedia({video: true})
+    video = document.getElementById('video');
+    video.srcObject = stream;
+    video.style.width = "100px";
+    video.style.height = "100px";
+    await video.play()
+    webcam_enabled = true
+  }
+
+  setTimeout(function () {
+    let canvas = document.getElementById('canvas')
+    const context = canvas.getContext("2d");
+    canvas.height = 224;
+    canvas.width = 224;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const data = canvas.toDataURL("image/jpeg");
+    run_net_w_resource(data)
+    //document.getElementById("imagebox").src = data
+  }, 200);
+}
+
+async function run_net_w_resource(resource) {
+  document.getElementById('result').innerHTML = "pending..."
+  if (resource == "") {
+    var err = "sir. please type in a URL"
+    alert(err)
+    throw new Error(err)
+  }
+  console.log(resource)
+  //const resource = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/160px-Banana-Single.jpg"
+  const response = await fetch(resource)
+  if (!response.ok) {
+    console.log(response)
+    var err = "sir. that is not a good URL. try a new one"
+    alert(err)
+    throw new Error(err)
+  }
+  document.getElementById("imagebox").src = resource
+
+  const dat = await response.arrayBuffer()
+  img = new Uint8Array(dat)
+  console.log(img)
+  img_ptr = 0
+
+  // emcc recognize.c -o recognize.html -s TOTAL_MEMORY=134217728
+  const prog = await fetch("/recognize.wasm")
+  const progArrayBuffer = await prog['arrayBuffer']()
+  console.log(progArrayBuffer)
+  var wasmImports = {
+    '__assert_fail': ___assert_fail,
+    "emscripten_memcpy_big": _emscripten_memcpy_big,
+    "emscripten_resize_heap": _emscripten_resize_heap,
+    "__syscall_openat": functionNotImplemented,
+    "__syscall_ioctl": functionNotImplemented,
+    "__syscall_fcntl64": functionNotImplemented,
+    "environ_sizes_get": functionNotImplemented,
+    "environ_get": functionNotImplemented,
+    "fd_close": functionNotImplemented,
+    "fd_write": _fd_write,
+    "fd_seek": _fd_seek,
+    "fd_read": _fd_read
+  }
+  var info = {
+    'env': wasmImports,
+    'wasi_snapshot_preview1': wasmImports
+  }
+  const inst = await WebAssembly.instantiate(progArrayBuffer, info)
+  //console.log(inst.instance.exports)
+  HEAPU8 = new Uint8Array(inst.instance.exports.memory.buffer) //new Uint8Array(inst.instance.exports['asm']);
+  HEAPU32 = new Uint32Array(inst.instance.exports.memory.buffer) //new Uint8Array(inst.instance.exports['asm']);
+
+  first_write = true
+  inst.instance.exports.__main_argc_argv(1, [])
+}
+
+</script>
+<head>
+<style>
+#result {
+  font-size: 48px;
+  padding: 50px;
+}
+#mybox {
+  padding: 20px;
+}
+.bigggg {
+  font-size: 18px;
+  margin-top: 10px;
+}
+.bigg {
+  font-size: 18px;
+}
+#url {
+  font-size: 18px;
+  width: 70%;
+}
+a {
+  text-decoration: none;
+}
+h1 {
+  padding: 50px;
+  padding-bottom: 0px;
+  font-size: 36px;
+  font-weight: normal;
+}
+#imagebox {
+  height:224px;
+  width:224px;
+  border: 1px dotted black;
+}
+#video {
+  height:0px;
+  width:0px;
+  border: 1px dotted black;
+  object-fit: cover;
+}
+canvas {
+  display: none;
+}
+* {
+  text-align: center;
+  font-family: monospace;
+}
+</style>
+</head>
+<body>
+<h1>WASM <a href="https://github.com/geohot/tinygrad">tinygrad</a> EfficientNet!</h1>
+<div id="mybox">
+<video id="video">Video stream not available.</video><br/>
+<input class="bigggg" type="button" onclick="use_webcam()" value="UsE__WEB_caM"><br/><br/>
+<input type="text" id="url" placeholder="put url here" value="https://upload.wikimedia.org/wikipedia/commons/d/da/Norwegian_hen.jpg">
+<input class="bigg" type="button" onclick="run_net_w_resource(document.getElementById('url').value)" value="Use URL">
+</div>
+<br/>
+<img id="imagebox"></img>
+<canvas id="canvas"> </canvas>
+<div id="result">result will go here</div>
