@@ -79,9 +79,6 @@ async function use_webcam() {
     video.srcObject = stream;
     video.style.width = "100px";
     video.style.height = "100px";
-    video.setAttribute('autoplay', '');
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '')
     await video.play()
     webcam_enabled = true
   }
@@ -206,7 +203,7 @@ canvas {
 <body>
 <h1>WASM <a href="https://github.com/geohot/tinygrad">tinygrad</a> EfficientNet!</h1>
 <div id="mybox">
-<video id="video">Video stream not available.</video><br/>
+<video autoPlay="true" playsinline="true" muted="true" id="video">Video stream not available.</video><br/>
 <input class="bigggg" type="button" onclick="use_webcam()" value="UsE__WEB_caM"><br/><br/>
 <input type="text" id="url" placeholder="put url here" value="https://upload.wikimedia.org/wikipedia/commons/d/da/Norwegian_hen.jpg">
 <input class="bigg" type="button" onclick="run_net_w_resource(document.getElementById('url').value)" value="Use URL">
