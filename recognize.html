@@ -74,7 +74,8 @@ function _emscripten_resize_heap(requestedSize) {
 webcam_enabled = false;
 async function use_webcam() {
   if (!webcam_enabled) {
-    let stream = await navigator.mediaDevices.getUserMedia({video: true})
+    // rear cam on iOS
+    let stream = await navigator.mediaDevices.getUserMedia({video: { facingMode: 'environment'}})
     video = document.getElementById('video');
     video.srcObject = stream;
     video.style.width = "100px";
