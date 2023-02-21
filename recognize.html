@@ -79,6 +79,9 @@ async function use_webcam() {
     video.srcObject = stream;
     video.style.width = "100px";
     video.style.height = "100px";
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '')
     await video.play()
     webcam_enabled = true
   }
@@ -151,6 +154,7 @@ async function run_net_w_resource(resource) {
 
 </script>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 #result {
   font-size: 48px;
