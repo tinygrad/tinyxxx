@@ -1,0 +1,49 @@
+.scroll-container,
+.scroll-area {
+    max-width: auto;
+    font-size: auto;
+    height: 1000px
+  }
+  
+.scroll-container {
+    overflow: auto;
+    scroll-snap-type: y mandatory;
+  }
+  
+.scroll-area {
+    scroll-snap-align: center;
+  }
+  
+.scroll-container,
+.scroll-area {
+    margin: auto;
+  }
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+
+h1 {
+    text-align: center;
+}
+
+.centered {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10%;
+    margin-left: 30%;
+    font-size: larger;
+}
+
+b {
+    text-align: center;
+}
+
+b {
+    margin-left: 5%;
+}
