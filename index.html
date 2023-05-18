@@ -24,19 +24,54 @@ tinygrad: A simple and powerful neural network framework
 <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
 
 <hr>
-We are <b>hiring</b>. All jobs are full time and on site in San Diego. No remote. Very talented interns okay. Same as <a href="https://www.comma.ai/jobs">comma</a>.<br/><br/>
+<h2>Work at the tiny corp</h2>
 
-<li>2x Software Engineer -- Python, C++, C. Beautiful elegant short code. From Pythonic AI framework down to twiddling GPU registers.</li>
-<br/>
+We are now funded and <b>hiring</b> software engineers. Full time and on site in San Diego. No remote. Very talented interns okay. Same as <a href="https://www.comma.ai/jobs">comma</a>.<br/><br/>
 
-Do you know how computers work? Do you <i>actually</i> <a href="https://github.com/geohot/fromthetransistor">know how computers work?</a><br/>
-Can you build a motherboard? Can you write a GPU driver?<br/><br/>
+See <b>jobs that need doing</b> to judge if you might be a good fit.<br/><br/>
 
-<i>work@tinygrad.org</i> to apply. Together, we will push the limits of computing. First by getting AMD cards on <a href="https://mlcommons.org/en/training-normal-21/">MLPerf</a><br/>
+I'm supposed to pitch you emotionally on why you should work here.<br/>
+Quit your job, move to San Diego, and work at the tiny corp.<br/>
+It will give you that meaning you are searching for, and I'm only half kidding.<br/>
+We are actually trying to make AI for everyone.<br/><br/>
+
+<i>work@tinygrad.org</i> to apply.
 
 <hr>
 
-<p>FAQ:</p>
+<h2>Jobs that need doing</h2>
+
+If you come work here, this is a list to get started. Assumes some familiarity with the <a href="https://github.com/geohot/tinygrad">tinygrad</a> codebase.
+
+<h3>Getting AMD on MLPerf</h3>
+There's a <a href="https://github.com/users/geohot/projects/2">GitHub project</a> for this. ResNet is done, U-Net3D is almost done. Need RetinaNet, RNN-T, and BERT.<br/>
+$200 per model bounty for writing these, learn more in the #mlperf-bounties channel on our <a href="https://discord.gg/ZjZadyC7PK">Discord</a><br/>
+
+<h3>Fastest Stable Diffusion and LLaMA on M1</h3>
+For LLaMA: Write the specializedjit and support int8.<br/>
+For Stable Diffusion: Clean up to use BS=2, write winograd conv, and write kernel search.<br/>
+
+<h3>Qualcomm DSP Support</h3>
+Switch over comma's DSP based driver monitoring model to tinygrad.<br/>
+A new architecture to port!</br>
+
+<h3>Max out all the GEMMs</h3>
+NVIDIA: Support local memory tensors. Some work in <a href="https://github.com/geohot/tinygrad/pull/557">this branch</a>.<br/>
+Apple M1: Support using Tensor Cores and simdgroup_float8x8. Some work in <a href="https://github.com/geohot/tinygrad/pull/728">this branch</a>.<br/>
+AMD: Write assembly backend for the linearizer<br/>
+
+<h3>Kernel Search</h3>
+There's a ton of ways to generate equivalent kernels, enumerate them and search them.<br/>
+Maybe with ML based search running in tinygrad. Self improvement?
+
+<h3>Kernel Combining (lazy.py)</h3>
+ResNets don't fuse as nicely as they could because which reduce do you fuse the elementwise with?<br/>
+BatchNorm at training and GroupNorm always is 4 kernels. Merge them!
+<br/>
+
+<hr>
+
+<h2>FAQ:</h2>
 
 <em>Is tinygrad used anywhere?</em><br/></br>
 tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).
