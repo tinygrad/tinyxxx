@@ -58,6 +58,10 @@ table {
     box-sizing: border-box;
 }
 
+h1, h2, h3, h4 {
+    line-height: 1.2em;
+}
+
 h1 {
     font-size: 4rem;
     margin: 3rem 0;
@@ -74,7 +78,7 @@ h3 {
 }
 
 h4 {
-    font-size: 1rem;
+    font-size: 1.5rem;
     margin: .5rem 0;
 }
 
@@ -82,6 +86,8 @@ body {
     display: flex;
     margin: 0;
     flex-direction: column;
+    line-height: 1.6em;
+    background-color: #EDEDED;
 }
 
 #nav {
@@ -94,23 +100,21 @@ body {
     justify-content: space-between;
     width: 100%;
     min-width: 420px;
-    padding: 32px;
+    padding: 32px 64px;
 }
 
 #nav .nav-items {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-#nav .nav-items li {
-    margin-left: 24px;
+    gap: 42px;
 }
 
 #hero {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    height: 920px;
 }
 
 #hero .hero-item {
@@ -118,10 +122,11 @@ body {
     flex-direction: column;
     flex-grow: 1;
     justify-content: flex-end;
-    height: 100vh;
+    height: 100%;
     background-color: #eee;
-    background-position: center center;
-    background-size: cover;
+    background-position: center;
+    background-size: cover cover;
+    background-position-y: bottom;
     padding: 64px;
 }
 
@@ -133,6 +138,77 @@ body {
     background-image: url(./static/tinygrad_render.jpg);
 }
 
+#hero .hero-item p {
+    font-size: 1.4rem;
+    opacity: .5;
+}
+
 #hero .hero-item a {
     margin-top: 48px;
+}
+
+#highlights {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 92px 0;
+}
+
+#highlights .tagline {
+    text-align: center;
+    margin-bottom: 112px;
+}
+
+#highlights .cards {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 42px;
+    padding: 0 32px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 400px;
+    min-width: 260px;
+    height: 560px;
+    background-color: #fff;
+    padding: 32px;
+}
+
+.card .tag {
+    padding: 8px 16px;
+    background-color: #fff;
+}
+
+.card .content h3 {
+    font-size: 2.4rem;
+    line-height: 1.4em;
+    margin-bottom: 32px;
+}
+
+.card .content p {
+    opacity: .4;
+}
+
+.card .content a {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+}
+
+.card.hardware {
+    background: linear-gradient(205deg, #F1E0FF 0%, #DEEBFD 100%);
+}
+
+.card.software {
+    background: linear-gradient(331deg, #FBF7D6 0%, #EAFFE9 100%);
+}
+
+.card.career {
+    background: linear-gradient(331deg, #FBD6D6 0%, #FFF6E9 100%);
 }
