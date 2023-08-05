@@ -212,3 +212,16 @@ body {
 .card.career {
     background: linear-gradient(331deg, #FBD6D6 0%, #FFF6E9 100%);
 }
+
+footer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 82px;
+    background-color: #F6F6F6;
+}
+
+footer .identity p {
+    opacity: .5;
+}
