@@ -49,7 +49,12 @@ table {
 
 /** Stylesheet Start */
 
-:root { font-family: 'Inter', sans-serif; }
+:root { 
+    font-family: 'Inter', sans-serif;
+
+    --accent-color: #0012ff;
+}
+
 @supports (font-variation-settings: normal) {
   :root { font-family: 'Inter var', sans-serif; }
 }
@@ -82,6 +87,38 @@ h4 {
     margin: .5rem 0;
 }
 
+h5 {
+    font-size: 1.2rem;
+    margin: .2rem 0;
+}
+
+a {
+    align-self: flex-start;
+    position: relative;
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--accent-color);
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+a:hover::after {
+    opacity: 1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     display: flex;
     margin: 0;
@@ -101,6 +138,7 @@ body {
     width: 100%;
     min-width: 420px;
     padding: 32px 64px;
+    z-index: 9;
 }
 
 #nav .nav-items {
@@ -108,6 +146,11 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 42px;
+}
+
+#nav .nav-items a {
+    color: inherit;
+    opacity: .5;
 }
 
 #hero {
@@ -125,7 +168,6 @@ body {
     height: 100%;
     background-color: #eee;
     background-position: center;
-    background-size: cover cover;
     background-position-y: bottom;
     padding: 64px;
 }
@@ -151,12 +193,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 92px 0;
+    padding: 112px 0;
 }
 
 #highlights .tagline {
     text-align: center;
     margin-bottom: 112px;
+    margin-top: 0;
 }
 
 #highlights .cards {
@@ -164,7 +207,7 @@ body {
     flex-direction: row;
     align-items: flex-start;
     gap: 42px;
-    padding: 0 32px;
+    padding: 0 64px;
 }
 
 .card {
@@ -185,6 +228,11 @@ body {
     background-color: #fff;
 }
 
+.card .content {
+    display: flex;
+    flex-direction: column;
+}
+
 .card .content h3 {
     font-size: 2.4rem;
     line-height: 1.4em;
@@ -196,8 +244,6 @@ body {
 }
 
 .card .content a {
-    display: flex;
-    flex-direction: column;
     margin-top: 32px;
 }
 
@@ -213,12 +259,81 @@ body {
     background: linear-gradient(331deg, #FBD6D6 0%, #FFF6E9 100%);
 }
 
+#hardware {
+    display: flex;
+    flex-direction: row;
+}
+
+#hardware .section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 64px;
+    background-color: #eff2fc;
+}
+
+#hardware .section.render {
+    background-position: center;
+    background-image: url(./static/tinybox_render.jpg);
+}
+
+#hardware .section.render::after {
+    position: absolute;
+    content: 'Stylistic Render (Not representable of end product)';
+    bottom: 0;
+    left: 0;
+    padding: 12px;
+    opacity: .33;
+    font-size: .6rem;
+}
+
+#hardware .section.intro {
+    justify-content: space-between;
+}
+
+#hardware .section.intro h1 {
+    margin-bottom: 24px;
+}
+
+#hardware .section.intro .price {
+    color: var(--accent-color);
+}
+
+#hardware .section.intro p {
+    font-size: 1.5rem;
+    line-height: 1.4em;
+    opacity: .5;
+}
+
+#hardware .section.intro .info {
+    display: flex;
+    flex-direction: column;
+}
+
+#hardware .section.intro .info .preorder {
+    margin-top: 48px;
+}
+
+#hardware .section.specification {
+    background-color: #fff;
+}
+
+#hardware .section.specification .spec-item {
+    margin-top: 12px;
+}
+
+#hardware .section.specification .spec-item p {
+    opacity: .5;
+}
+
 footer {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 82px;
+    padding: 64px;
     background-color: #F6F6F6;
 }
 
