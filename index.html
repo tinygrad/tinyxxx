@@ -2,9 +2,547 @@
 <html>
   <head>
     <title>Tinycorp — On a mission to commoditize the petaflop</title>
-    <link rel="stylesheet" href="index.css" />
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+      /* http://meyerweb.com/eric/tools/css/reset/ 
+        v2.0 | 20110126
+        License: none (public domain)
+      */
+
+      html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      b, u, i, center,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td,
+      article, aside, canvas, details, embed, 
+      figure, figcaption, footer, header, hgroup, 
+      menu, nav, output, ruby, section, summary,
+      time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article, aside, details, figcaption, figure, 
+      footer, header, hgroup, menu, nav, section {
+        display: block;
+      }
+      body {
+        line-height: 1;
+      }
+      ol, ul {
+        list-style: none;
+      }
+      blockquote, q {
+        quotes: none;
+      }
+      blockquote:before, blockquote:after,
+      q:before, q:after {
+        content: '';
+        content: none;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      /** Stylesheet Start */
+
+      :root { 
+          font-family: 'Inter', sans-serif;
+
+          --accent-color: #0012ff;
+      }
+
+      @supports (font-variation-settings: normal) {
+        :root { font-family: 'Inter var', sans-serif; }
+      }
+
+      * {
+          box-sizing: border-box;
+      }
+
+      h1, h2, h3, h4 {
+          line-height: 1.2em;
+      }
+
+      h1 {
+          font-size: 4rem;
+          margin: 3rem 0;
+      }
+
+      h2 {
+          font-size: 3rem;
+          margin: 2rem 0;
+      }
+
+      h3 {
+          font-size: 2rem;
+          margin: 1rem 0;
+      }
+
+      h4 {
+          font-size: 1.5rem;
+          margin: .5rem 0;
+      }
+
+      h5 {
+          font-size: 1.2rem;
+          margin: .2rem 0;
+      }
+
+      a {
+          position: relative;
+          color: var(--accent-color);
+          text-decoration: none;
+      }
+
+      a::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background-color: var(--accent-color);
+          opacity: 0;
+          transition: opacity .2s;
+      }
+
+      a:hover::after {
+          opacity: 1;
+      }
+
+      a h1, a h2, a h3, a h4, a h5 {
+          margin-bottom: 0;
+      }
+
+      details > summary {
+          list-style: none;
+      }
+
+      details > summary::-webkit-details-marker {
+          display: none;
+      }
+
+      html {
+          scroll-behavior: smooth;
+      }
+
+      body {
+          display: flex;
+          margin: 0;
+          flex-direction: column;
+          line-height: 1.6em;
+          background-color: #EDEDED;
+      }
+
+      ul.bullet, ol.bullet {
+        list-style: initial;
+      }
+
+      #nav {
+          position: fixed;
+          transform: translateX(-50%);
+          left: 50%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          min-width: 420px;
+          padding: 32px 64px;
+          z-index: 9;
+      }
+
+      #nav .nav-items {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 42px;
+      }
+
+      #nav .nav-items a {
+          color: inherit;
+          opacity: .5;
+      }
+
+      #nav .nav-items a::after {
+          background-color: rgba(0,0,0,.5);
+      }
+
+      #hero {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          height: 920px;
+      }
+
+      #hero .hero-item {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          justify-content: flex-end;
+          align-items: flex-start;
+          height: 100%;
+          background-color: #eee;
+          background-position: bottom;
+          padding: 64px;
+          transition: background-size .5s;
+      }
+
+      #hero .hero-item.tinybox {
+          background-image: url(./static/tinybox_render.jpg);
+      }
+
+      #hero .hero-item.tinygrad {
+          background-image: url(./static/tinygrad_render.jpg);
+      }
+
+      #hero .hero-item p {
+          font-size: 1.4rem;
+          opacity: .5;
+      }
+
+      #hero .hero-item a {
+          margin-top: 48px;
+      }
+
+      #highlights {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 112px 0;
+      }
+
+      #highlights .tagline {
+          text-align: center;
+          margin-bottom: 112px;
+          margin-top: 0;
+      }
+
+      .cards {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 42px;
+          padding: 0 64px;
+      }
+
+      .card {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          width: 100%;
+          max-width: 400px;
+          min-width: 260px;
+          height: 560px;
+          background-color: #fff;
+          padding: 32px;
+      }
+
+      .card .tag {
+          padding: 8px 16px;
+          background-color: #fff;
+      }
+
+      .card .content {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+
+      .card .content h3 {
+          font-size: 2.4rem;
+          line-height: 1.4em;
+          margin-bottom: 32px;
+      }
+
+      .card .content p {
+          opacity: .4;
+      }
+
+      .card .content a {
+          margin-top: 32px;
+      }
+
+      .card.hardware {
+          background: linear-gradient(205deg, #F1E0FF 0%, #DEEBFD 100%);
+      }
+
+      .card.software {
+          background: linear-gradient(331deg, #FBF7D6 0%, #EAFFE9 100%);
+      }
+
+      .card.career {
+          background: linear-gradient(331deg, #FBD6D6 0%, #FFF6E9 100%);
+      }
+
+      .card.meta {
+          background: linear-gradient(162deg, #D4FFE8 0%, #D7E6F3 100%);
+      }
+
+      #hardware {
+          display: flex;
+          flex-direction: row;
+      }
+
+      #hardware .section {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          flex-basis: 0;
+          padding: 64px;
+          background-color: #eff2fc;
+      }
+
+      #hardware .section.render {
+          background-position: center;
+          background-image: url(./static/tinybox_render.jpg);
+      }
+
+      #hardware .section.render::after {
+          position: absolute;
+          content: 'Stylistic Render (Not representable of end product)';
+          bottom: 0;
+          left: 0;
+          padding: 12px;
+          opacity: .2;
+          font-size: .6rem;
+      }
+
+      #hardware .section.intro {
+          justify-content: space-between;
+      }
+
+      #hardware .section.intro h1 {
+          margin-bottom: 24px;
+      }
+
+      #hardware .section.intro .price {
+          color: var(--accent-color);
+      }
+
+      #hardware .section.intro p {
+          font-size: 1.5rem;
+          line-height: 1.4em;
+          opacity: .5;
+      }
+
+      #hardware .section.intro .info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+
+      #hardware .section.intro .info .preorder {
+          margin-top: 48px;
+      }
+
+      #hardware .section.specification {
+          background-color: #fff;
+      }
+
+      #hardware .section.specification .spec-item {
+          margin-top: 12px;
+      }
+
+      #hardware .section.specification .spec-item p {
+          opacity: .5;
+      }
+
+      #software {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 112px 0;
+      }
+
+      #software .headline {
+          text-align: center;
+          margin-top: 0;
+      }
+
+      #software .tagline {
+          text-align: center;
+          margin-bottom: 112px;
+          line-height: 1.6em;
+          margin-top: 0;
+          opacity: .5;
+      }
+
+      #software .cards .card.wide {
+          max-width: 842px;
+          min-width: 442px;
+          padding: 64px;
+      }
+
+      #software .cards .card .content h4 {
+          line-height: 1.6em;
+      }
+
+      #software .cards .card .content p {
+          font-size: 1.2rem;
+          line-height: 1.6em;
+      }
+
+      #software .cards .card .content ul {
+          margin-top: 32px;
+          padding: 0 16px;
+          opacity: .5;
+      }
+
+      #software a.social-cta {
+          text-align: center;
+          margin-top: 64px;
+      }
+
+      #faq {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: #fff;
+          padding: 112px 64px;
+      }
+
+      #faq .headline {
+          text-align: center;
+      }
+
+      #faq .questions {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 1280px;
+          min-width: 720px;
+          margin-top: 72px;
+      }
+
+      #faq .questions details {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          padding: 32px 0;
+          border-bottom: 1px solid #000;
+      }
+
+      #faq .questions details:first-of-type {
+          border-top: 1px solid #000;
+      }
+
+      #faq .questions details summary {
+          font-size: 2rem;
+      }
+
+      #faq .questions details p {
+          margin-top: 24px;
+          padding: 0 2px;
+          font-size: 1.2rem;
+          line-height: 1.6em;
+      }
+
+      #faq .questions details ul {
+        list-style: initial;
+          padding: 0 32px;
+      }
+
+      /* Small devices (portrait tablets and large phones, 600px and up) */
+      @media only screen and (max-width: 768px) {
+          #nav {
+              padding: 24px 32px;
+          }
+
+          #nav .nav-items {
+              display: none;
+          }
+
+          #hero {
+              flex-direction: column;
+              height: 200vh;
+          }
+
+          #hero .hero-item {
+              height: 100vh;
+              width: 100%;
+              background-position: bottom;
+              background-size: cover;
+          }
+
+          #highlights h1 {
+              font-size: 3rem;
+              margin: 0 64px;
+          }
+
+          #highlights .cards {
+              flex-direction: column;
+              padding: 0 32px;
+          }
+
+          #highlights .cards .card {
+              width: 100%;
+              max-width: initial;
+              min-width: initial;
+          }
+
+          #hardware {
+              flex-direction: column;
+          }
+
+          #hardware .section.render {
+              height: 600px;
+              flex-basis: auto;
+          }
+
+          #software {
+              padding: 112px 36px;
+          }
+
+          #software .cards {
+              flex-direction: column;
+              padding: 0;
+          }
+
+          #software .cards .card {
+              height: 100%;
+              min-width: initial;
+              max-width: initial;
+              width: 100%;
+          }
+
+          #software .cards .card.wide {
+              padding: 32px;
+          }
+          
+          #software .cards .card .icon {
+              margin-bottom: 28px;
+          }
+
+
+          #faq {
+              padding: 112px 32px;
+          }
+
+          #faq .questions {
+              max-width: initial;
+              min-width: initial;
+              width: 100%;
+          }
+
+          #faq .questions details summary {
+              line-height: 1.4em;
+          }
+      }
+    </style>
   </head>
   <body>
     <nav id="nav">
@@ -12,9 +550,9 @@
       <div>
         <ol class="nav-items">
           <a href="#hero"><li>Index</li></a>
+          <a href="#highlights"><li>Mission</li></a>
           <a href="#hardware"><li>Hardware</li></a>
           <a href="#software"><li>Software</li></a>
-          <a href="#careers"><li>Careers</li></a>
         </ol>
       </div>
     </nav>
@@ -108,7 +646,7 @@
       <h4 class="tagline">We write and maintain Tinygrad — the fastest growing neural network framework</h4>
       <div class="cards">
         <div class="card wide">
-          <svg width="64" height="65" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#24292f"/></svg>            
+          <svg class="icon" width="64" height="65" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#24292f"/></svg>            
           <div class="content">
             <h3>You like pytorch? You like micrograd? You'll love Tinygrad!</h3>
             <p>Due to its extreme simplicity, it aims to be the easiest framework to add new accelerators to, with support for both inference and training.<br />If XLA is CISC, Tinygrad is RISC.</p>
@@ -128,159 +666,53 @@
           </div>
         </div>
       </div>
+      <a class="social-cta" href="https://discord.gg/ZjZadyC7PK" target="_blank"><h1>Join Our Discord ↗</h1></a>
     </section>
-    <footer>
-      <div class="identity">
-        <h4>Tinycorp</h4>
-        <p>© 2023 Tinycorp Inc.</p>
+    <section id="faq">
+      <h2 class="headline">Frequently Asked Questions</h2>
+      <div class="questions">
+        <details>
+          <summary>Is Tinygrad used anywhere?</summary>
+          <p>Tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).</p>
+        </details>
+        <details>
+          <summary>Is Tinygrad inference only?</summary>
+          <p>No! It supports full forward and backward passes with autodiff. This is implemented at a level of abstraction higher than the accelerator specific code, so a Tinygrad port gets you this for free.</p>
+        </details>
+        <details>
+          <summary>How can I use Tinygrad for my next ML project?</summary>
+          <p>Follow the installation instructions on the Tinygrad repo. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while Tinygrad is in alpha, so be warned, though it's been fairly stable for a while.</p>  
+        </details>
+        <details>
+          <summary>When will Tinygrad leave alpha?</summary>
+          <p>When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch. We also want the speed to be good on the M1. ETA, Q2 next year.</p>  
+        </details>
+        <details>
+          <summary>How is Tinygrad faster than PyTorch?</summary>
+          <p>For most use cases it isn't yet, but it will be. It has three advantages:</p>
+          <ul>
+            <li>It compiles a custom kernel for every operation, allowing extreme shape specialization.</li>
+            <li>All tensors are lazy, so it can aggressively fuse operations.</li>
+            <li>The backend is 10x+ simpler, meaning optimizing one kernel makes everything fast.</li>
+          </ul>
+        </details>
+        <details>
+          <summary>How can Tinycorp work for me?</summary>
+          <p>Email george@tinygrad.org. We are looking for contracts and sponsorships to improve various aspects of Tinygrad.</p>  
+        </details>
+        <details>
+          <summary>How can I work for Tinycorp?</summary>
+          <p>work@tinygrad.org to apply, but really, get hired by doing bounties. If you haven't contributed to Tinygrad, your application won't be considered.</p>  
+        </details>
+        <details>
+          <summary>Can I invest in Tinycorp?</summary>
+          <p>Invest with your PRs.</p>  
+        </details>
+        <details>
+          <summary>What's the goal of Tinycorp?</summary>
+          <p>To accelerate. We will commoditize the petaflop and enable AI for everyone.</p>  
+        </details>
       </div>
-    </footer>
+    </section>
   </body>
 </html>
-
-
-
-
-
-
-
-
-<!-- 
-<!DOCTYPE html>
-<html>
-<head>
-<title>
-tinygrad: A simple and powerful neural network framework
-</title>
-<style>
-  body {
-    font-family:'Lucida Console', monospace
-  }
-</style>
-<body>
-<h1>we are the tiny corp</h1>
-
-<p>We write and maintain <a href="https://github.com/geohot/tinygrad">tinygrad</a>, the fastest growing neural network framework (over 9000 GitHub stars)<p>
-
-<p>It's extremely simple, and breaks down the most <a href="https://github.com/geohot/tinygrad/blob/master/examples/llama.py">complex</a> <a href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 4 <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/ops.py">OpTypes</a></p>
-
-<li><b>UnaryOps</b> operate on one tensor and run elementwise. RELU, LOG, RECIPROCAL, etc...</li>
-<li><b>BinaryOps</b> operate on two tensors and run elementwise to return one. ADD, MUL, etc...</li>
-<li><b>ReduceOps</b> operate on one tensor and return a smaller tensor. SUM, MAX</li>
-<li><b>MovementOps</b> operate on one tensor and move the data around, copy-free with <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>. RESHAPE, PERMUTE, EXPAND, etc...</li>
-
-<p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
-
-<hr>
-<h2>Work at the tiny corp</h2>
-
-We <a href="https://geohot.github.io/blog/jekyll/update/2023/05/24/the-tiny-corp-raised-5M.html">are now funded</a> and <b>hiring</b> full time software engineers. Very talented interns okay.<br/>
-
-See <b>jobs that need doing</b> to judge if you might be a good fit.<br/><br/>
-
-I'm supposed to pitch you emotionally on why you should work here.<br/>
-It will give you that meaning you are searching for, and I'm only half kidding.<br/>
-We are actually trying to make AI for everyone.<br/><br/>
-
-<i>work@tinygrad.org</i> to apply, but really, get hired by <a href="https://docs.google.com/spreadsheets/d/1WKHbT-7KOgjEawq5h5Ic1qUWzpfAzuD_J06N1JwOCGs/edit?usp=sharing">doing bounties</a>.<br/>
-If you haven't contributed to tinygrad, your application won't be considered.
-
-<hr>
-
-<h2>Jobs that need doing</h2>
-
-If you come work here, this is a list to get started. Assumes some familiarity with the <a href="https://github.com/geohot/tinygrad">tinygrad</a> codebase.
-
-<h3>Getting AMD on MLPerf</h3>
-There's a <a href="https://github.com/users/geohot/projects/2">GitHub project</a> for this. Can you make the models train?<br/>
-$500 per model to get tinygrad to train from scratch to the required error within 12 hours.<br/>
-Learn more in the #mlperf-bounties channel on our <a href="https://discord.gg/ZjZadyC7PK">Discord</a><br/>
-
-<h3>Fastest Stable Diffusion and LLaMA on M1</h3>
-For LLaMA: Write the specializedjit and support int8.<br/>
-For Stable Diffusion: Clean up to use BS=2, write winograd conv and kernel search. Target is 0.324 s/it on M1 Max.<br/>
-
-<h3>Qualcomm DSP Support</h3>
-Switch over comma's DSP based driver monitoring model to tinygrad.<br/>
-A new architecture to port!</br>
-
-<h3>Max out all the GEMMs</h3>
-NVIDIA: Support local memory tensors. Some work in <a href="https://github.com/geohot/tinygrad/pull/557">this branch</a>.<br/>
-Apple M1: Support using Tensor Cores and simdgroup_float8x8. Some work in <a href="https://github.com/geohot/tinygrad/pull/728">this branch</a>.<br/>
-AMD: Write assembly backend for the linearizer<br/>
-
-<h3>Multi GPU training</h3>
-Trees, rings, and collnets oh my! AMD gets us P2P for free.
-
-<h3>Kernel Search</h3>
-There's a ton of ways to generate equivalent kernels, enumerate them and search them.<br/>
-Maybe with ML based search running in tinygrad. Self improvement?
-
-<h3>Kernel Combining (lazy.py)</h3>
-ResNets don't fuse as nicely as they could because which reduce do you fuse the elementwise with?<br/>
-BatchNorm at training and GroupNorm always is 4 kernels. Merge them!
-<br/>
-
-<hr>
-
-<h2>The tinybox</h2>
-<li>738 FP16 TFLOPS</li>
-<li>144 GB GPU RAM</li>
-<li>5.76 TB/s RAM bandwidth</li>
-<li>30 GB/s model load bandwidth (big llama loads in around 4 seconds)</li>
-<li>AMD EPYC CPU</li>
-<li>1600W (one 120V outlet)</li>
-<li>Runs 65B FP16 LLaMA out of the box (using tinygrad, subject to software development risks)</li>
-<li><b>$15,000</b></li>
-<br/>
-<a href="https://buy.stripe.com/5kAaGL6lk9uX9nW144">Preorder a tinybox today! (just $100)</a><br/><br/>
-(specs subject to change. all preorders fully refundable until your tinybox ships. price doesn't include shipping. estimated timeline 2-6 months)
-<br/>
-<hr>
-
-<h2>FAQ:</h2>
-
-<em>Is tinygrad used anywhere?</em><br/></br>
-tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).
-<br/><br/><br/>
-
-<em>Is tinygrad inference only?</em><br/></br>
-No! It supports full forward and backward passes with autodiff. <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/mlops.py">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.
-<br/><br/><br/>
-
-<em>How can I use tinygrad for my next ML project?</em><br/></br>
-Follow the installation instructions on <a href="https://github.com/geohot/tinygrad">the tinygrad repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while tinygrad is in alpha, so be warned, though it's been fairly stable for a while.
-<br/><br/><br/>
-
-<em>When will tinygrad leave alpha?</em><br/></br>
-When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch. We also want the speed to be good on the M1. ETA, Q2 next year.
-<br/><br/><br/>
-
-<em>How is tinygrad faster than PyTorch?</em><br/></br>
-For most use cases it isn't yet, but it will be. It has three advantages:
-<li>It compiles a custom kernel for every operation, allowing extreme shape specialization.</li>
-<li>All tensors are lazy, so it can aggressively fuse operations.</li>
-<li>The backend is 10x+ simpler, meaning optimizing one kernel makes everything fast.</li>
-<br/><br/>
-
-<em>How can the tiny corp work for me?</em><br/></br>
-
-Email me, george@tinygrad.org. We are looking for contracts and sponsorships to improve various aspects of tinygrad.
-<br/><br/><br/>
-
-<em>How can I work for the tiny corp?</em><br/></br>
-
-See <b>hiring</b> above. Contributions to <a href="https://github.com/geohot/tinygrad">tinygrad</a> on GitHub always welcome, and a good way to get hired.
-<br/><br/><br/>
-
-<em>Can I invest in the tiny corp?</em><br/></br>
-
-Invest with your PRs.
-
-<br/><br/><br/>
-
-<em>What's the goal of the tiny corp?</em><br/></br>
-
-To accelerate. We will commoditize the petaflop and enable AI for everyone.
-
- -->
