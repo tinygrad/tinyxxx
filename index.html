@@ -8,90 +8,74 @@ tinygrad: A simple and powerful neural network framework
   body {
     font-family:'Lucida Console', monospace
   }
+  pre {
+    font-size: 60px;
+    line-height: 36px;
+    font-stretch: 150%;
+  }
+  table {
+    border-collapse: collapse;
+    text-align: center;
+  }
+  td {
+    padding: 5px 20px;
+    border: 1px solid #dddddd;
+  }
 </style>
 <body>
-<h1>we are the tiny corp</h1>
+<pre>
+ ■  ■
+■■■   ■■  ■ ■
+ ■  ■ ■ ■ ■■■
+ ■  ■ ■ ■   ■
+          ■■
+</pre>
 
 <p>We write and maintain <a href="https://github.com/tinygrad/tinygrad">tinygrad</a>, the fastest growing neural network framework (over 9000 GitHub stars)<p>
 
-<p>It's extremely simple, and breaks down the most <a href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py">complex</a> <a href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 4 <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/ops.py">OpTypes</a></p>
+<p>It's extremely simple, and breaks down the most <a href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py">complex</a> <a href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 3 <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/ops.py">OpTypes</a></p>
 
-<li><b>UnaryOps</b> operate on one tensor and run elementwise. RELU, LOG, RECIPROCAL, etc...</li>
-<li><b>BinaryOps</b> operate on two tensors and run elementwise to return one. ADD, MUL, etc...</li>
+<li><b>ElementwiseOps</b> are UnaryOps, BinaryOps, and TernaryOps. They operate on 1-3 tensors and run elementwise. RELU, LOG, RECIPROCAL, ADD, MUL, etc...</li>
 <li><b>ReduceOps</b> operate on one tensor and return a smaller tensor. SUM, MAX</li>
-<li><b>MovementOps</b> operate on one tensor and move the data around, copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>. RESHAPE, PERMUTE, EXPAND, etc...</li>
+<li><b>MovementOps</b> are virtual ops that operate on one tensor and move the data around, copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>. RESHAPE, PERMUTE, EXPAND, etc...</li>
 
 <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
 
 <hr>
 <h2>Work at the tiny corp</h2>
 
-We <a href="https://geohot.github.io/blog/jekyll/update/2023/05/24/the-tiny-corp-raised-5M.html">are now funded</a> and <b>hiring</b> full time software engineers. Very talented interns okay.<br/>
+We <a href="https://geohot.github.io/blog/jekyll/update/2023/05/24/the-tiny-corp-raised-5M.html">are now funded</a> and <b>hiring</b> full time software engineers. Very talented interns okay.<br/><br/>
 
-See <b>jobs that need doing</b> to judge if you might be a good fit.<br/><br/>
+See <a href="https://docs.google.com/spreadsheets/d/1WKHbT-7KOgjEawq5h5Ic1qUWzpfAzuD_J06N1JwOCGs/edit?usp=sharing">our bounty page</a> to judge if you might be a good fit.<br/><br/>
 
-I'm supposed to pitch you emotionally on why you should work here.<br/>
-It will give you that meaning you are searching for, and I'm only half kidding.<br/>
-We are actually trying to make AI for everyone.<br/><br/>
-
-<i>work@tinygrad.org</i> to apply, but really, get hired by <a href="https://docs.google.com/spreadsheets/d/1WKHbT-7KOgjEawq5h5Ic1qUWzpfAzuD_J06N1JwOCGs/edit?usp=sharing">doing bounties</a>.<br/>
 If you haven't contributed to tinygrad, your application won't be considered.
-
 <hr>
-
-<h2>Jobs that need doing</h2>
-
-If you come work here, this is a list to get started. Assumes some familiarity with the <a href="https://github.com/tinygrad/tinygrad">tinygrad</a> codebase.
-
-<h3>Getting AMD on MLPerf</h3>
-There's a <a href="https://github.com/users/geohot/projects/2">GitHub project</a> for this. Can you make the models train?<br/>
-$500 per model to get tinygrad to train from scratch to the required error within 12 hours.<br/>
-Learn more in the #mlperf-bounties channel on our <a href="https://discord.gg/ZjZadyC7PK">Discord</a><br/>
-
-<h3>Fastest Stable Diffusion and LLaMA on M1</h3>
-For LLaMA: Write the specializedjit and support int8.<br/>
-For Stable Diffusion: Clean up to use BS=2, write winograd conv and kernel search. Target is 0.324 s/it on M1 Max.<br/>
-
-<h3>Qualcomm DSP Support</h3>
-Switch over comma's DSP based driver monitoring model to tinygrad.<br/>
-A new architecture to port!</br>
-
-<h3>Max out all the GEMMs</h3>
-NVIDIA: Support local memory tensors. Some work in <a href="https://github.com/tinygrad/tinygrad/pull/557">this branch</a>.<br/>
-Apple M1: Support using Tensor Cores and simdgroup_float8x8. Some work in <a href="https://github.com/tinygrad/tinygrad/pull/728">this branch</a>.<br/>
-AMD: Write assembly backend for the linearizer<br/>
-
-<h3>Multi GPU training</h3>
-Trees, rings, and collnets oh my! AMD gets us P2P for free.
-
-<h3>Kernel Search</h3>
-There's a ton of ways to generate equivalent kernels, enumerate them and search them.<br/>
-Maybe with ML based search running in tinygrad. Self improvement?
-
-<h3>Kernel Combining (lazy.py)</h3>
-ResNets don't fuse as nicely as they could because which reduce do you fuse the elementwise with?<br/>
-BatchNorm at training and GroupNorm always is 4 kernels. Merge them!
-<br/>
-
-<hr>
-
-<h2>The tinybox</h2>
-<li>738 FP16 TFLOPS (red) / 991 FP16 TFLOPS (green)</li>
-<li>144 GB GPU RAM</li>
-<li>5.76 TB/s (red) / 6.05 TB/s (green) RAM bandwidth</li>
-<li>28.7 GB/s disk read bandwidth (<a href="https://twitter.com/__tinygrad__/status/1747467257889116379">benchmarked</a>)</li>
-<li>AMD EPYC CPU, 32 cores</li>
-<li>2x 1500W (two 120V outlets, can power limit for less)</li>
-<li>Runs 70B FP16 LLaMA-2 out of the box using tinygrad</li>
-<li><b>$15,000 (red) / $25,000 (green)</b></li>
-<br/>
-<a href="https://buy.stripe.com/5kAaGL6lk9uX9nW144">Preorder a tinybox today! (just $100)</a><br/><br/>
-(specs subject to change. all preorders fully refundable until your tinybox ships. price doesn't include shipping. estimated timeline 2-6 months)<br/>
-(red version has questionable drivers but is cheaper, green version works great but nerfs FP32 acc and P2P. you choose version when preorder is finalized)
-<br/>
+<h2>We sell a computer called the tinybox. It comes in two colors</h2>
+<table>
+  <tr><td></td></td><td><b style="color:red">red</b></td><td><b style="color:green">green</b></td></tr>
+  <tr><td>TFLOPS</td></td><td>738 FP16 TFLOPS</td><td>991 FP16 TFLOPS</td></tr>
+  <tr><td>GPU RAM</td><td colspan="2">144 GB</td></tr>
+  <tr><td>GPU RAM bandwidth</td><td>5760 GB/s</td><td>6050 GB/s</td></tr>
+  <tr><td>Disk size</td><td colspan="2">4 TB raid array + 1 TB boot</td></tr>
+  <tr><td>Disk read bandwidth</td><td colspan="2">28.7 GB/s</td></tr>
+  <tr><td>CPU</td><td colspan="2">32 core AMD EPYC</td></tr>
+  <tr><td>System RAM</td><td colspan="2">128 GB</td></tr>
+  <tr><td>System RAM bandwidth</td><td colspan="2">204.8 GB/s</td></tr>
+  <tr><td>Networking</td><td colspan="2">Dual 1 GbE ethernet + 16x OCP 3.0</td></tr>
+  <tr><td>Noise</td><td colspan="2">&lt; 50 dB, 31 low speed fans</td></tr>
+  <tr><td>PSU</td><td colspan="2">2x 1600W</td></tr>
+  <tr><td>Driver Quality</td></td><td>Mediocre</td><td>Great</td></tr>
+  <tr><td>Price</td></td><td>$15,000</td><td>$25,000</td></tr>
+</table>
+<h3><a href="https://buy.stripe.com/5kAaGL6lk9uX9nW144">Preorder a tinybox today! (just $100)</a></h3>
+(specs subject to change. all preorders fully refundable until your tinybox ships. price doesn't include shipping. estimated timeline 2-4 months)<br/>
 <hr>
 
 <h2>FAQ:</h2>
+
+<em>How will my preorder turn into a tinybox?</em><br/></br>
+You will be contacted by e-mail when we are ready to finalize your preorder. First boxes will ship in April 2024.
+<br/><br/><br/>
 
 <em>Is tinygrad used anywhere?</em><br/></br>
 tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).
