@@ -25,6 +25,9 @@ tinygrad: A simple and powerful neural network framework
     width: 500px;
     padding: 30px;
   }
+  .quiet {
+    color: inherit;
+  }
 </style>
 <body>
 <svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg">
@@ -69,11 +72,12 @@ We are also hiring for operations and hardware, but if you haven't contributed t
   <tr><td>TFLOPS</td></td><td>738 FP16 TFLOPS</td><td>991 FP16 TFLOPS</td></tr>
   <tr><td>GPU RAM</td><td colspan="2">144 GB</td></tr>
   <tr><td>GPU RAM bandwidth</td><td>5760 GB/s</td><td>6050 GB/s</td></tr>
-  <tr><td>Disk size</td><td colspan="2">4 TB raid array + 1 TB boot</td></tr>
-  <tr><td>Disk read bandwidth</td><td colspan="2">28.7 GB/s</td></tr>
+  <tr><td>GPU link bandwidth</td><td colspan="2">6x PCIe 4.0 x16 (64 GB/s)</td></tr>
   <tr><td>CPU</td><td colspan="2">32 core AMD EPYC</td></tr>
   <tr><td>System RAM</td><td colspan="2">128 GB</td></tr>
   <tr><td>System RAM bandwidth</td><td colspan="2">204.8 GB/s</td></tr>
+  <tr><td>Disk size</td><td colspan="2">4 TB raid array + 1 TB boot</td></tr>
+  <tr><td>Disk read bandwidth</td><td colspan="2"><a class="quiet" href="https://twitter.com/__tinygrad__/status/1747467257889116379">28.7 GB/s</a></td></tr>
   <tr><td>Networking</td><td colspan="2">Dual 1 GbE + open 16x OCP 3.0</td></tr>
   <tr><td>Noise</td><td colspan="2">&lt; 50 dB, 31 low speed fans</td></tr>
   <tr><td>PSU</td><td colspan="2">2x 1600W</td></tr>
