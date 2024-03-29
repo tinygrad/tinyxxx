@@ -35,7 +35,7 @@ tinygrad: A simple and powerful neural network framework
 
 <p>It's extremely simple, and breaks down the most <a href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py">complex</a> <a href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 3 <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/ops.py">OpTypes</a></p>
 
-<li><b>ElementwiseOps</b> are UnaryOps, BinaryOps, and TernaryOps. They operate on 1-3 tensors and run elementwise. RELU, LOG, RECIPROCAL, ADD, MUL, etc...</li>
+<li><b>ElementwiseOps</b> are UnaryOps, BinaryOps, and TernaryOps. They operate on 1-3 tensors and run elementwise. SQRT, LOG2, ADD, MUL, WHERE, etc...</li>
 <li><b>ReduceOps</b> operate on one tensor and return a smaller tensor. SUM, MAX</li>
 <li><b>MovementOps</b> are virtual ops that operate on one tensor and move the data around, copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>. RESHAPE, PERMUTE, EXPAND, etc...</li>
 
