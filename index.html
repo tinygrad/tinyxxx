@@ -21,27 +21,30 @@ tinygrad: A simple and powerful neural network framework
     padding: 5px 20px;
     border: 1px solid #dddddd;
   }
-  .canvas div {
-    width: 36px;
-    height: 36px;
-    display: inline-block;
-    margin-top: -5px;
-    padding: 0px;
-    /*box-shadow: 0px 0px 1px black;*/
-  }
-  .b {
-    background-color: black;
+  svg {
+    width: 800px;
+    padding-top: 15px;
+    padding-left: 15px;
   }
 </style>
 <body>
-<div class="canvas">
-  <div></div><br/>
-  <div></div><div class="b"></div><div></div><div></div><div class="b"></div><br/>
-  <div class="b"></div><div class="b"></div><div class="b"></div><div></div><div></div><div></div><div class="b"></div><div class="b"></div><div></div><div></div><div class="b"></div><div></div><div class="b"></div><br/>
-  <div></div><div class="b"></div><div></div><div></div><div class="b"></div><div></div><div class="b"></div><div></div><div class="b"></div><div></div><div class="b"></div><div class="b"></div><div class="b"></div><br/>
-  <div></div><div class="b"></div><div></div><div></div><div class="b"></div><div></div><div class="b"></div><div></div><div class="b"></div><div></div><div></div><div></div><div class="b"></div><br/>
-  <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class="b"></div><div class="b"></div><br/>
-</div>
+<svg viewBox="0 0 240 50" xmlns="http://www.w3.org/2000/svg">
+  <!-- t -->
+  <rect x="10" y="0" width="10" height="40" fill="#000000"/>
+  <rect x="0" y="10" width="30" height="10" fill="#000000"/>
+  <!-- i -->
+  <rect x="40" y="0" width="10" height="10" fill="#000000"/>
+  <rect x="40" y="20" width="10" height="20" fill="#000000"/>
+  <!-- n -->
+  <rect x="60" y="10" width="10" height="30" fill="#000000"/>
+  <rect x="60" y="10" width="20" height="10" fill="#000000"/>
+  <rect x="80" y="20" width="10" height="20" fill="#000000"/>
+  <!-- y -->
+  <rect x="100" y="10" width="10" height="20" fill="#000000"/>
+  <rect x="100" y="20" width="30" height="10" fill="#000000"/>
+  <rect x="120" y="10" width="10" height="30" fill="#000000"/>
+  <rect x="100" y="40" width="20" height="10" fill="#000000"/>
+</svg>
 <p>We write and maintain <a href="https://github.com/tinygrad/tinygrad">tinygrad</a>, the fastest growing neural network framework (over 9000 GitHub stars)<p>
 
 <p>It's extremely simple, and breaks down the most <a href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py">complex</a> <a href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 3 <a href="https://github.com/geohot/tinygrad/blob/master/tinygrad/ops.py">OpTypes</a></p>
