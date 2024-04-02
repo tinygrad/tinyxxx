@@ -13,6 +13,10 @@
             display: flex;
             justify-content: center;
         }
+
+        svg { width: 100%; height: auto; }
+    .svg-container { width: 100%; max-width: 100px; display: inline-block; }
+
         .container {
             display: flex;
             flex: 1;
@@ -88,7 +92,28 @@
 
 <div class="container">
     <div class="section1">
-        <img class="company-logo" src="tiny logo.png" alt="Company Logo">
+
+        <div class="svg-container">
+            <svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg">
+              <!-- t -->
+              <rect x="10" y="0" width="10" height="40" fill="#000000" />
+              <rect x="0" y="10" width="30" height="10" fill="#000000" />
+              <rect x="10" y="30" width="20" height="10" fill="#000000" />
+              <!-- i -->
+              <rect x="40" y="0" width="10" height="10" fill="#000000" />
+              <rect x="40" y="20" width="10" height="20" fill="#000000" />
+              <!-- n -->
+              <rect x="60" y="10" width="10" height="30" fill="#000000" />
+              <rect x="60" y="10" width="20" height="10" fill="#000000" />
+              <rect x="80" y="20" width="10" height="20" fill="#000000" />
+              <!-- y -->
+              <rect x="100" y="10" width="10" height="20" fill="#000000" />
+              <rect x="100" y="20" width="30" height="10" fill="#000000" />
+              <rect x="120" y="10" width="10" height="30" fill="#000000" />
+              <rect x="100" y="40" width="20" height="10" fill="#000000" />
+            </svg>
+          </div>
+
         <img class="product-photo" src="../assets/tinybox.jpg" alt="Product Photo">
     </div>
     <div class="section2">
