@@ -9,7 +9,7 @@
         body {
             font-family: 'Roboto Mono', monospace;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
         }
@@ -23,30 +23,20 @@
             height: 100%;
             align-items: center;
         }
-        .section1 {
-            padding: 20px;
-            text-align: center;
-            flex-shrink: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        h2 {
+            align-self: flex-start;
         }
-        .section2 {
-            padding: 20px;
-        }
+
+
         .product-photo {
             width: 100%;
             max-width: 600px;
             height: auto;
             margin: 0 auto;
         }
-        .section2 > p, .section2 > div {
-            text-align: left;
-            width: 100%;
-            margin-bottom: 20px;
-        }
+
         .colorbox {
-            margin-top: 30px;
+            margin-bottom: 20px;
         }
         .deposit {
             background-color: black;
@@ -59,7 +49,6 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            text-transform: uppercase;
             text-decoration: none;
             text-align: center;
             box-sizing: border-box;
@@ -73,7 +62,7 @@
 <body>
 
 <div class="container">
-    <div class="section1">
+
 
         <div class="svg-container">
             <svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg">
@@ -97,19 +86,19 @@
           </div>
 
         <img class="product-photo" src="../assets/tinybox.jpg" alt="tinybox photo">
-    </div>
 
-    <div class="section2">
         <h2>Select your tinybox color:</h2>
 
         <div class="colorbox">
-            <h3>tinybox <b style="color:green">green</b> (6x NVIDIA RTX 4090, $25,000)</h3>
+            <h3>tinybox <b style="color:green">green</b></h3>
+            <p>$25,000<br>6x NVIDIA RTX 4090</p>
             <p>You came here to do ML. You like checking out the latest open source ML stuff on GitHub. You know about Attention and how you want FlashAttention. You want your Fully Sharded Data Optimizer using BF16 and gonna switch to FP8 soon! You just want things to work. gpt-fast. A solid box for the ML researcher. A solid box for the tinygrad developer. A solid box for everyone. It's just a little expensive.</p>
             <a class="deposit" href="https://buy.stripe.com/6oEcOTaBAgXp6bK4gi">PLACE 10% DEPOSIT ($2,500)</a>
         </div>
         
         <div class="colorbox">
-            <h3>tinybox <b style="color:red">red</b> (6x AMD 7900XTX, $15,000)</h3>
+            <h3>tinybox <b style="color:red">red</b></h3>
+            <p>$15,000<br>6x AMD 7900XTX</p>
             <p>You came here for the hardware. You want to be a part of the narrative. Make AMD great, whether they want to be great or not. Sure, it works for ML, mostly. Just maybe you have to reboot it sometimes. tinygrad does work well enough to get AMD on MLPerf. You buy the red box because you want to mess with kernel drivers and shader engines. You know what a warp is. You like the idea that the MMIO is yours with umr. RDNA3 docs! You want to get every bit of perf out of the metal. The specs are similar to green, except it's $10k cheaper.</p>
             <a class="deposit" href="https://buy.stripe.com/fZe9CH2540YrcA8cMP">PLACE 10% DEPOSIT ($1,500)</a>
         </div>
@@ -121,13 +110,19 @@
             <p><strong>Shipping estimate:</strong> Expected to start in May 2024. Dates subject to change. Orders will ship in the order of deposits received.</p>
             <p><strong>Shipping regions:</strong> Currently shipping to North America only. Customers outside this region, please <a href="mailto:contact@tinygrad.org">contact us</a> for options.</p>
             <p><strong>Detailed specs:</strong> Refer to the <a href="../index.html#tinybox">tinybox section</a> of our website.</p>
-            <p><strong>Alternative options:</strong> If you are currently unsure about proceeding with your order, you can email <a href="mailto:ops@tinygrad.org">ops@tinygrad.org</a> for the option to either:</p>
+            <p><strong>Warranty:</strong> tiny corp gives a one (1) year limited warranty from the date of delivery that the goods are in good condition and shall be free from substantive defects. The warranty does not apply to any goods that are damaged due to the misuse, abuse or negligence of any party other than tiny corp.
+            <ul>
+                <li>Some products may have been manufactured with new components or refurbished components that have undergone reliability, burn-in, or performance testing.</li>
+                <li>Products returned via an RMA may be replaced by new, refurbished, or similar versions of the same components rather than being repaired.</li>
+            </ul>
+            </p>
+            <p><strong>Alternative options:</strong> If you are currently unsure about proceeding with your order, you can email <a href="mailto:ops@tinygrad.org">ops@tinygrad.org</a> for the option to either:
             <ul>
                 <li>Defer: Move to the end of the waitlist (currently 600+ orders).</li>
                 <li>Refund: Cancel pre-order and receive a refund of your $100 fee.</li>
-            </ul>
+            </ul></p>
         </div>
-    </div>
+
 </div>
 </body>
 </html>
