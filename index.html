@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>tinygrad: A simple and powerful neural network framework</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Roboto Mono', monospace;
+      font-family:'Lucida Console', monospace;
       font-size: 18px;
       color: #111;
       background-color: white;
@@ -24,7 +23,7 @@
       text-align: center;
     }
     svg { width: 100%; height: auto; }
-    .svg-container { width: 100%; max-width: 200px; display: inline-block; }
+    .svg-container { width: 100%; max-width: 400px; display: inline-block; }
     .separator { letter-spacing: -9px; }
     hr { border: none; height: 2px; background-color: lightgrey; width: 100%; margin: 30px auto; }
     table { border-collapse: collapse; text-align: center; width: 100%; }
@@ -33,7 +32,7 @@
       border: 1px solid #dddddd;
     }
     .quiet, .links-container a { color: inherit; }
-    .links-container { margin: 20px; }
+    .links-container { font-size: 24px; margin: 20px; }
     .links-container a { text-decoration: none; margin: 0 10px; }
     .product-photo { display: block; max-width: 640px; width: 100%; margin: 0 auto; }
     .faqtable dt { margin-bottom: 0.75em; font-style: italic; }
@@ -71,7 +70,7 @@
   </div>
 
   <hr>
-  <h2 id="tinygrad">Tinygrad</h2>
+  <h2 id="tinygrad">tinygrad</h2>
   <p>We write and maintain <a href="https://github.com/tinygrad/tinygrad">tinygrad</a>, the fastest growing neural
     network framework (over 23,000 GitHub stars)</p>
 
@@ -80,12 +79,14 @@
       href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 3 <a
       href="https://github.com/geohot/tinygrad/blob/master/tinygrad/ops.py">OpTypes</a></p>
 
-  <li><b>ElementwiseOps</b> are UnaryOps, BinaryOps, and TernaryOps. They operate on 1-3 tensors and run elementwise.
-    SQRT, LOG2, ADD, MUL, WHERE, etc...</li>
-  <li><b>ReduceOps</b> operate on one tensor and return a smaller tensor. SUM, MAX</li>
-  <li><b>MovementOps</b> are virtual ops that operate on one tensor and move the data around, copy-free with <a
-      href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>. RESHAPE,
-    PERMUTE, EXPAND, etc...</li>
+  <b>ElementwiseOps</b> are UnaryOps, BinaryOps, and TernaryOps.<br/>
+    They operate on 1-3 tensors and run elementwise.<br/>
+    example: SQRT, LOG2, ADD, MUL, WHERE, etc...<br/><br/>
+  <b>ReduceOps</b> operate on one tensor and return a smaller tensor.<br/>
+    example: SUM, MAX<br/><br/>
+  <b>MovementOps</b> are virtual ops that operate on one tensor and move the data around<br/>
+    Copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>.<br/>
+    example: RESHAPE, PERMUTE, EXPAND, etc...<br/><br/>
 
   <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
 
@@ -96,7 +97,7 @@
   We are also hiring for operations and hardware, but if you haven't contributed to tinygrad your application won't be considered.
 
   <hr>
-  <h2 id="tinybox">Tinybox</h2>
+  <h2 id="tinybox">tinybox</h2>
   <img class="product-photo" src="assets/tinybox.jpg">
   <p>We sell a computer called the tinybox. It comes in two colors:</p>
   <table>
