@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinybox deposit</title>
+    <style>
+        body {
+            font-family:'Lucida Console', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        svg { width: 100%; height: auto; }
+        .svg-container { width: 100%; max-width: 100px; display: inline-block; }
+        .container {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            max-width: 600px;
+            height: 100%;
+            align-items: center;
+        }
+        h2 {
+            align-self: flex-start;
+        }
+
+        .product-photo {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .colorbox {
+            margin-bottom: 20px;
+        }
+        .deposit {
+            background-color: black;
+            color: white;
+
+            display: block;
+            width: 100%;
+            padding: 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .separator {
+            width: 50%;
+            margin: 30px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+
+        <div class="svg-container">
+            <svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg">
+              <!-- t -->
+              <rect x="10" y="0" width="10" height="40" fill="#000000" />
+              <rect x="0" y="10" width="30" height="10" fill="#000000" />
+              <rect x="10" y="30" width="20" height="10" fill="#000000" />
+              <!-- i -->
+              <rect x="40" y="0" width="10" height="10" fill="#000000" />
+              <rect x="40" y="20" width="10" height="20" fill="#000000" />
+              <!-- n -->
+              <rect x="60" y="10" width="10" height="30" fill="#000000" />
+              <rect x="60" y="10" width="20" height="10" fill="#000000" />
+              <rect x="80" y="20" width="10" height="20" fill="#000000" />
+              <!-- y -->
+              <rect x="100" y="10" width="10" height="20" fill="#000000" />
+              <rect x="100" y="20" width="30" height="10" fill="#000000" />
+              <rect x="120" y="10" width="10" height="30" fill="#000000" />
+              <rect x="100" y="40" width="20" height="10" fill="#000000" />
+            </svg>
+          </div>
+        <h1>Choose your color</h1>
+
+        <img class="product-photo" src="../assets/tinybox.jpg" alt="tinybox photo">
+
+        <div class="colorbox">
+            <h2>tinybox <b style="color:green">green</b> - 6x NVIDIA RTX 4090</h2>
+            <p>You came here to do ML and you want it to just work.</p>
+            <p>You like checking out the latest open source ML stuff on GitHub. gpt-fast. You want your Attention to be FlashAttention. You want your Fully Sharded Data Optimizer using BF16 and soon, FP8.</p>
+            <p>A solid box for the ML researcher. A solid box for the tinygrad developer. A solid box for everyone. It's just a little expensive.</p>
+            <a class="deposit" href="https://buy.stripe.com/6oEcOTaBAgXp6bK4gi">PLACE 10% DEPOSIT ($25,000 total)</a>
+        </div>
+
+        <div class="colorbox">
+            <h2>tinybox <b style="color:red">red</b> - 6x AMD 7900XTX</h2>
+            <p>You came here for the hardware.</p>
+            <p>You want to be a part of the journey. Make AMD great, with or without their help.</p>
+            <p>Sure, it works for ML, mostly. Just maybe you have to reboot it sometimes. tinygrad does work well enough to get AMD on MLPerf at least.</p>
+            You buy the red box because you want to mess with kernel drivers and shader engines. You know what a warp is. You like that you can see the MMIO with umr. RDNA3 is documented! You want to get every bit of perf out of the metal.</p>
+            <p>The specs are similar to green, except it's $10k cheaper.</p>
+            <a class="deposit" href="https://buy.stripe.com/fZe9CH2540YrcA8cMP">PLACE 10% DEPOSIT ($15,000 total)</a>
+        </div>
+
+        <hr class="separator">
+
+        <div>
+            <p><strong>Deposit:</strong> A 10% deposit secures your place in the waitlist and readies your tinybox for assembly & shipping. This deposit is non-refundable if your computer is ready by Jun 31, 2024.</p>
+            <p><strong>Shipping estimate:</strong> Expected to start in May 2024. Dates subject to change. Orders will ship in the order of deposits received.</p>
+            <p><strong>Shipping regions:</strong> Currently shipping to North America only. Customers outside this region, please <a href="mailto:contact@tinygrad.org">contact us</a> for options.</p>
+            <p><strong>Detailed specs:</strong> Refer to the <a href="../index.html#tinybox">tinybox section</a> of our website.</p>
+            <p><strong>Warranty:</strong> tiny corp gives a one (1) year limited warranty from the date of delivery that the goods are in good condition and shall be free from substantive defects. The warranty does not apply to any goods that are damaged due to the misuse, abuse or negligence of any party other than tiny corp.
+            <ul>
+                <li>Some products may have been manufactured with new components or refurbished components that have undergone reliability, burn-in, or performance testing.</li>
+                <li>Products returned via an RMA may be replaced by new, refurbished, or similar versions of the same components rather than being repaired.</li>
+            </ul>
+            </p>
+            <p><strong>Alternative options:</strong> If you are currently unsure about proceeding with your order, you can email <a href="mailto:ops@tinygrad.org">ops@tinygrad.org</a> for the option to either:
+            <ul>
+                <li>Defer: Move to the end of the waitlist (currently 600+ orders).</li>
+                <li>Refund: Cancel pre-order and receive a refund of your $100 fee.</li>
+            </ul></p>
+        </div>
+
+</div>
+</body>
+</html>
