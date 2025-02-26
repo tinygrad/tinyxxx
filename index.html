@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <title>tinygrad: A simple and powerful neural network framework</title>
   <style>
+    :root { --fg: #111; --bg: white; --border: #dddddd; --logo: black; --link: #0000EE; --visited: #551A8B; --pro: black; }
     body {
       font-family:'Lucida Console', monospace;
       font-size: 18px;
-      color: #111;
-      background-color: white;
+      color: var(--fg);
+      background-color: var(--bg);
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 50px;
@@ -25,18 +26,23 @@
     svg { width: 100%; height: auto; }
     .svg-container { width: 100%; max-width: 400px; display: inline-block; }
     .separator { letter-spacing: -9px; }
-    hr { border: none; height: 2px; background-color: lightgrey; width: 100%; margin: 30px auto; }
+    hr { border: none; height: 2px; background-color: var(--border); width: 100%; margin: 30px auto; }
     table { border-collapse: collapse; text-align: center; width: 100%; }
     td {
       padding: 5px 20px;
-      border: 1px solid #dddddd;
+      border: 1px solid var(--border);
     }
+    a { color: var(--link); }
+    a:visited { color: var(--visited); }
     .quiet, .links-container a { color: inherit; }
     .links-container { font-size: 24px; margin: 20px; }
     .links-container a { text-decoration: none; margin: 0 10px; }
     .product-photo { display: block; max-height: 640px; width: 100%; margin: 0 auto; }
     .faqtable dt { margin-bottom: 0.75em; font-style: italic; }
     .faqtable dd { margin-left: 0; margin-bottom: 2em; }
+    @media (prefers-color-scheme: dark) {
+      :root{ --fg: #eee; --bg: black; --border: #333333; --logo: white; --link: #69f; --visited: #a7e; --pro: white; }
+    }
   </style>
 </head>
 <body>
@@ -44,21 +50,21 @@
     <div class="svg-container">
       <svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg">
         <!-- t -->
-        <rect x="10" y="0" width="10" height="40" fill="#000000" />
-        <rect x="0" y="10" width="30" height="10" fill="#000000" />
-        <rect x="10" y="30" width="20" height="10" fill="#000000" />
+        <rect x="10" y="0" width="10" height="40" fill=var(--logo) />
+        <rect x="0" y="10" width="30" height="10" fill=var(--logo) />
+        <rect x="10" y="30" width="20" height="10" fill=var(--logo) />
         <!-- i -->
-        <rect x="40" y="0" width="10" height="10" fill="#000000" />
-        <rect x="40" y="20" width="10" height="20" fill="#000000" />
+        <rect x="40" y="0" width="10" height="10" fill=var(--logo) />
+        <rect x="40" y="20" width="10" height="20" fill=var(--logo) />
         <!-- n -->
-        <rect x="60" y="10" width="10" height="30" fill="#000000" />
-        <rect x="60" y="10" width="20" height="10" fill="#000000" />
-        <rect x="80" y="20" width="10" height="20" fill="#000000" />
+        <rect x="60" y="10" width="10" height="30" fill=var(--logo) />
+        <rect x="60" y="10" width="20" height="10" fill=var(--logo) />
+        <rect x="80" y="20" width="10" height="20" fill=var(--logo) />
         <!-- y -->
-        <rect x="100" y="10" width="10" height="20" fill="#000000" />
-        <rect x="100" y="20" width="30" height="10" fill="#000000" />
-        <rect x="120" y="10" width="10" height="30" fill="#000000" />
-        <rect x="100" y="40" width="20" height="10" fill="#000000" />
+        <rect x="100" y="10" width="10" height="20" fill=var(--logo) />
+        <rect x="100" y="20" width="30" height="10" fill=var(--logo) />
+        <rect x="120" y="10" width="10" height="30" fill=var(--logo) />
+        <rect x="100" y="40" width="20" height="10" fill=var(--logo) />
       </svg>
     </div>
     <div class="links-container">
@@ -105,9 +111,9 @@
   <img class="product-photo" src="assets/tinypro.jpg">
   </td></tr></table>
   <p>We sell a computer called the tinybox. It comes in two colors + pro.</p>
-  <p>tinybox <b style="color:red">red</b> and <b style="color:green">green</b> are for people looking for a quiet home/office machine.<br/>tinybox <b style="color:black">pro</b> is for people looking for a loud compact rack machine.</p>
+  <p>tinybox <b style="color:red">red</b> and <b style="color:green">green</b> are for people looking for a quiet home/office machine.<br/>tinybox <b style="color:var(--pro)">pro</b> is for people looking for a loud compact rack machine.</p>
   <table>
-    <tr><td></td></td><td><b style="color:red">red</b></td><td><b style="color:green">green</b></td><td><b style="color:black">pro</b></td></tr>
+    <tr><td></td></td><td><b style="color:red">red</b></td><td><b style="color:green">green</b></td><td><b style="color:var(--pro)">pro</b></td></tr>
     <tr><td>FLOPS</td></td><td>738 FP16 TFLOPS</td><td>991 FP16 TFLOPS</td><td>1.36 FP16 PFLOPS</td></tr>
     <tr><td>GPU Model</td><td>6x 7900XTX</td><td>6x 4090</td><td>8x 4090</td></tr>
     <tr><td>GPU RAM</td><td colspan="2">144 GB</td><td>192 GB</td></tr>
