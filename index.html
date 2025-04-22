@@ -107,26 +107,26 @@
   <p>We sell a computer called the tinybox. It comes in two colors + pro.</p>
   <p>tinybox <b style="color:red">red</b> and <b style="color:green">green</b> are for people looking for a quiet home/office machine.<br/>tinybox <b style="color:black">pro</b> is for people looking for a loud compact rack machine.</p>
   <table>
-    <tr><td></td></td><td><b style="color:red">red</b></td><td><b style="color:green">green</b></td><td><b style="color:green">green v2</b></td><td><b style="color:black">pro</b></td></tr>
-    <tr><td>FP16 (FP32 acc) FLOPS</td></td><td>738 TFLOPS</td><td>991 TFLOPS</td><td>838 TFLOPS</td><td>1.36 PFLOPS</td></tr>
-    <tr><td>GPU Model</td><td>6x 7900XTX</td><td>6x 4090</td><td>4x 5090</td><td>8x 4090</td></tr>
-    <tr><td>GPU RAM</td><td colspan="2">144 GB</td><td>128 GB</td><td>192 GB</td></tr>
-    <tr><td>GPU RAM bandwidth</td><td>5760 GB/s</td><td>6050 GB/s</td><td>7168 GB/s</td><td>8064 GB/s</td></tr>
-    <tr><td>GPU link bandwidth</td><td colspan="2">full fabric PCIe 4.0 x16</td><td>full fabric PCIe 5.0 x16</td><td>PCIe 4.0 x16</td></tr>
-    <tr><td>CPU</td><td colspan="2">32 core AMD EPYC</td><td>32 core AMD GENOA</td><td>2x AMD GENOA</td></tr>
-    <tr><td>System RAM</td><td colspan="2">128 GB</td><td>192 GB</td><td>384 GB</td></tr>
-    <tr><td>System RAM bandwidth</td><td colspan="2">204.8 GB/s</td><td>460.8 GB/s</td><td>921.6 GB/s</td></tr>
-    <tr><td>Disk size</td><td colspan="3">4 TB raid array + 1 TB boot</td><td>1 TB boot</td></tr>
-    <tr><td>Disk read bandwidth</td><td colspan="2"><a class="quiet" href="https://twitter.com/__tinygrad__/status/1747467257889116379">28.7 GB/s</a></td><td>28.7+ GB/s</td><td>use network</td></tr>
-    <tr><td>Networking</td><td colspan="2">2x 1 GbE + open OCP3.0 slot</td><td>2x 10 GbE + 2x 1 GbE + open OCP3.0 PCIe5</td><td>2x open PCIe5 x16</td></tr>
-    <tr><td>Noise</td><td colspan="3">&lt; 50 dB, 31 low speed fans</td><td>Loud</td></tr>
-    <tr><td>Power Supply</td><td colspan="3">2x 1600W, 100V~240V</td><td>4x 2000W, 200V+</td></tr>
-    <tr><td>BMC</td><td colspan="2">AST2500</td><td colspan="2">AST2600</td></tr>
-    <tr><td>Operating System</td><td colspan="2">Ubuntu 22.04</td><td colspan="2">Ubuntu 24.04</td></tr>
-    <tr><td>Dimensions</td><td colspan="3">12U, 16.25" deep, 90 lbs</td><td>4U, 31" D, 88 lbs</td></tr>
-    <tr><td>Rack?</td><td colspan="3">Freestanding or rack <a class="quiet" href="https://rackmountmart.store.turbify.net/26slidrailfo.html">mount</a></td><td>Supermicro rails</td></tr>
-    <tr><td>Driver Quality</td></td><td><a href="https://github.com/tinygrad/tinygrad/tree/master/tinygrad/runtime/support/am">Developing</a></td><td colspan="3">Great</td></tr>
-    <tr><td>SHIPPING</td></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-red">BUY NOW FOR $15,000</a></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-green">OUT OF STOCK $25,000</a></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-green-v2">SHIPS Q2 2025 $29,000</td><td><a href="https://tinycorp.myshopify.com/products/tinybox-pro-1">OUT OF STOCK $40,000</a></td></tr>
+    <tr><td></td></td><td><b style="color:red">red</b></td><td><b style="color:green">green v2</b></td><td><b style="color:black">pro</b></td></tr>
+    <tr><td>FP16 (FP32 acc) FLOPS</td></td><td>738 TFLOPS</td><td>838 TFLOPS</td><td>1.36 PFLOPS</td></tr>
+    <tr><td>GPU Model</td><td>6x 7900XTX</td><td>4x 5090</td><td>8x 4090</td></tr>
+    <tr><td>GPU RAM</td><td colspan="1">144 GB</td><td>128 GB</td><td>192 GB</td></tr>
+    <tr><td>GPU RAM bandwidth</td><td>5760 GB/s</td><td>7168 GB/s</td><td>8064 GB/s</td></tr>
+    <tr><td>GPU link bandwidth</td><td colspan="1">full fabric PCIe 4.0 x16</td><td>full fabric PCIe 5.0 x16</td><td>PCIe 4.0 x16</td></tr>
+    <tr><td>CPU</td><td colspan="1">32 core AMD EPYC</td><td>32 core AMD GENOA</td><td>2x AMD GENOA</td></tr>
+    <tr><td>System RAM</td><td colspan="1">128 GB</td><td>192 GB</td><td>384 GB</td></tr>
+    <tr><td>System RAM bandwidth</td><td colspan="1">204.8 GB/s</td><td>460.8 GB/s</td><td>921.6 GB/s</td></tr>
+    <tr><td>Disk size</td><td colspan="2">4 TB raid array + 1 TB boot</td><td>1 TB boot</td></tr>
+    <tr><td>Disk read bandwidth</td><td colspan="1"><a class="quiet" href="https://twitter.com/__tinygrad__/status/1747467257889116379">28.7 GB/s</a></td><td>28.7+ GB/s</td><td>use network</td></tr>
+    <tr><td>Networking</td><td colspan="1">2x 1 GbE + open OCP3.0 slot</td><td>2x 10 GbE + 2x 1 GbE + open OCP3.0 PCIe5</td><td>2x open PCIe5 x16</td></tr>
+    <tr><td>Noise</td><td colspan="2">&lt; 50 dB, 31 low speed fans</td><td>Loud</td></tr>
+    <tr><td>Power Supply</td><td colspan="2">2x 1600W, 100V~240V</td><td>4x 2000W, 200V+</td></tr>
+    <tr><td>BMC</td><td colspan="1">AST2500</td><td colspan="2">AST2600</td></tr>
+    <tr><td>Operating System</td><td colspan="1">Ubuntu 22.04</td><td colspan="2">Ubuntu 24.04</td></tr>
+    <tr><td>Dimensions</td><td colspan="2">12U, 16.25" deep, 90 lbs</td><td>4U, 31" D, 88 lbs</td></tr>
+    <tr><td>Rack?</td><td colspan="2">Freestanding or rack <a class="quiet" href="https://rackmountmart.store.turbify.net/26slidrailfo.html">mount</a></td><td>Supermicro rails</td></tr>
+    <tr><td>Driver Quality</td></td><td><a href="https://github.com/tinygrad/tinygrad/tree/master/tinygrad/runtime/support/am">Developing</a></td><td colspan="2">Great</td></tr>
+    <tr><td>SHIPPING</td></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-red">BUY NOW FOR $15,000</a></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-green-v2">SHIPS Q2 2025 $29,000</td><td><a href="https://tinycorp.myshopify.com/products/tinybox-pro-1">OUT OF STOCK $40,000</a></td></tr>
   </table>
   <br/>
   <center>
