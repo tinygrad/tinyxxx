@@ -73,7 +73,7 @@
   <hr>
   <h2 id="tinygrad">tinygrad</h2>
   <p>We write and maintain <a href="https://github.com/tinygrad/tinygrad">tinygrad</a>, the fastest growing neural
-    network framework (over 23,000 GitHub stars)</p>
+    network framework (<span id="star-count">loading...</span> GitHub stars)</p>
 
   <p>It's extremely simple, and breaks down the most <a
       href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py">complex</a> <a
@@ -176,5 +176,17 @@
     <dt>What's the goal of the tiny corp?</dt>
     <dd>To accelerate. We will commoditize the petaflop and enable AI for everyone.</dd>
   </dl>
+  <script>
+    fetch("https://api.github.com/repos/tinygrad/tinygrad")
+      .then(res => res.json())
+      .then(data => {
+        const count = data.stargazers_count.toLocaleString();
+        document.getElementById("star-count").textContent = `${count}`;
+      })
+      .catch(err => {
+        console.error("Failed to fetch GitHub stars", err);
+        document.getElementById("star-count").textContent = "over 29,000";
+      });
+  </script>
 </body>
 </html>
