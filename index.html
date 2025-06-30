@@ -152,7 +152,7 @@
     <dd>tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).</dd>
 
     <dt>Is tinygrad inference only?</dt>
-    <dd>No! It supports full forward and backward passes with autodiff. <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/function.py">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.</dd>
+    <dd>No! It supports full forward and backward passes with autodiff. <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/gradient.py">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.</dd>
 
     <dt>How can I use tinygrad for my next ML project?</dt>
     <dd>Follow the installation instructions on <a href="https://github.com/tinygrad/tinygrad">the tinygrad repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while tinygrad is in alpha, so be warned, though it's been fairly stable for a while.</dd>
