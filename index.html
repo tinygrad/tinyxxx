@@ -63,7 +63,7 @@
     </div>
     <div class="links-container">
       <a href="#tinygrad">tinygrad</a><span class="separator">|</span>
-      <a href="https://docs.tinygrad.org">docs</a><span class="separator">|</span>
+      <a href="https://docs.tinygrad.org" target="_blank">docs</a><span class="separator">|</span>
       <a href="#worktiny">jobs</a><span class="separator">|</span>
       <a href="#tinybox">tinybox <span style="color:orange">(buy now!)</span></a><span class="separator">|</span>
       <a href="#faq">FAQ</a>
@@ -72,13 +72,13 @@
 
   <hr>
   <h2 id="tinygrad">tinygrad</h2>
-  <p>We write and maintain <a href="https://github.com/tinygrad/tinygrad">tinygrad</a>, the fastest growing neural
+  <p>We write and maintain <a href="https://github.com/tinygrad/tinygrad" target="_blank">tinygrad</a>, the fastest growing neural
     network framework</p>
 
   <p>It's extremely simple, and breaks down the most <a
-      href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py">complex</a> <a
-      href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py">networks</a> into 3 <a
-      href="https://github.com/geohot/tinygrad/blob/master/tinygrad/uop/ops.py">OpTypes</a></p>
+      href="https://github.com/tinygrad/tinygrad/blob/master/examples/llama.py" target="_blank">complex</a> <a
+      href="https://github.com/geohot/tinygrad/blob/master/examples/stable_diffusion.py" target="_blank">networks</a> into 3 <a
+      href="https://github.com/geohot/tinygrad/blob/master/tinygrad/uop/ops.py" target="_blank">OpTypes</a></p>
 
   <b>ElementwiseOps</b> are UnaryOps, BinaryOps, and TernaryOps.<br/>
     They operate on 1-3 tensors and run elementwise.<br/>
@@ -86,15 +86,15 @@
   <b>ReduceOps</b> operate on one tensor and return a smaller tensor.<br/>
     example: SUM, MAX<br/><br/>
   <b>MovementOps</b> are virtual ops that operate on one tensor and move the data around<br/>
-    Copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>.<br/>
+    Copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py" target="_blank">ShapeTracker</a>.<br/>
     example: RESHAPE, PERMUTE, EXPAND, etc...<br/>
 
   <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
 
   <hr>
   <h2 id="worktiny">Work at tiny corp</h2>
-  We <a href="https://geohot.github.io/blog/jekyll/update/2023/05/24/the-tiny-corp-raised-5M.html">are now funded</a> and <b>hiring</b> full time software engineers. Very talented interns okay.<br/><br/>
-  See <a href="https://docs.google.com/spreadsheets/d/1WKHbT-7KOgjEawq5h5Ic1qUWzpfAzuD_J06N1JwOCGs/edit?usp=sharing">our bounty page</a> to judge if you might be a good fit. Bounties pay you while judging that fit.<br/><br/>
+  We <a href="https://geohot.github.io/blog/jekyll/update/2023/05/24/the-tiny-corp-raised-5M.html" target="_blank">are now funded</a> and <b>hiring</b> full time software engineers. Very talented interns okay.<br/><br/>
+  See <a href="https://docs.google.com/spreadsheets/d/1WKHbT-7KOgjEawq5h5Ic1qUWzpfAzuD_J06N1JwOCGs/edit?usp=sharing" target="_blank">our bounty page</a> to judge if you might be a good fit. Bounties pay you while judging that fit.<br/><br/>
   We are also hiring for operations and hardware, but if you haven't contributed to tinygrad your application won't be considered.
 
   <hr>
@@ -103,7 +103,7 @@
   <p>We sell a computer called the tinybox. It comes in two colors.</p>
   <table>
     <tr><td></td></td><td><b style="color:red">red</b></td><td><b style="color:green">green v2</b></td></tr>
-    <tr><td>FP16 (FP32 acc) FLOPS</td></td><td>738 TFLOPS</td><td><a href="https://x.com/__tinygrad__/status/1922861531005366297">1492 TFLOPS</a></td></tr>
+    <tr><td>FP16 (FP32 acc) FLOPS</td></td><td>738 TFLOPS</td><td><a href="https://x.com/__tinygrad__/status/1922861531005366297" target="_blank">1492 TFLOPS</a></td></tr>
     <tr><td>GPU Model</td><td>6x 7900XTX</td><td>4x 5090</td></tr>
     <tr><td>GPU RAM</td><td colspan="1">144 GB</td><td>128 GB</td></tr>
     <tr><td>GPU RAM bandwidth</td><td>5760 GB/s</td><td>7168 GB/s</td></tr>
@@ -112,15 +112,15 @@
     <tr><td>System RAM</td><td colspan="1">128 GB</td><td>192 GB</td></tr>
     <tr><td>System RAM bandwidth</td><td colspan="1">204.8 GB/s</td><td>460.8 GB/s</td></tr>
     <tr><td>Disk size</td><td colspan="2">4 TB raid array + 1 TB boot</td></tr>
-    <tr><td>Disk read bandwidth</td><td colspan="1"><a class="quiet" href="https://twitter.com/__tinygrad__/status/1747467257889116379">28.7 GB/s</a></td><td>28.7+ GB/s</td></tr>
+    <tr><td>Disk read bandwidth</td><td colspan="1"><a class="quiet" href="https://twitter.com/__tinygrad__/status/1747467257889116379" target="_blank">28.7 GB/s</a></td><td>28.7+ GB/s</td></tr>
     <tr><td>Networking</td><td colspan="1">2x 1 GbE + open OCP3.0 slot</td><td>2x 10 GbE + 2x 1 GbE + open OCP3.0 PCIe5</td></tr>
     <tr><td>Noise</td><td colspan="2">&lt; 50 dB, 31 low speed fans</td></tr>
     <tr><td>Power Supply</td><td colspan="2">2x 1600W, 100V~240V</td></tr>
     <tr><td>BMC</td><td colspan="1">AST2500</td><td colspan="1">AST2600</td></tr>
     <tr><td>Operating System</td><td colspan="1">Ubuntu 22.04</td><td colspan="1">Ubuntu 24.04</td></tr>
     <tr><td>Dimensions</td><td colspan="2">12U, 16.25" deep, 90 lbs</td></tr>
-    <tr><td>Rack?</td><td colspan="2">Freestanding or rack <a class="quiet" href="https://rackmountmart.store.turbify.net/26slidrailfo.html">mount</a></td></tr>
-    <tr><td>Driver Quality</td></td><td><a href="https://github.com/tinygrad/tinygrad/tree/master/tinygrad/runtime/support/am">Developing</a></td><td colspan="1">Great</td></tr>
+    <tr><td>Rack?</td><td colspan="2">Freestanding or rack <a class="quiet" href="https://rackmountmart.store.turbify.net/26slidrailfo.html" target="_blank">mount</a></td></tr>
+    <tr><td>Driver Quality</td></td><td><a href="https://github.com/tinygrad/tinygrad/tree/master/tinygrad/runtime/support/am" target="_blank">Developing</a></td><td colspan="1">Great</td></tr>
     <tr><td>SHIPPING</td></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-red">IN STOCK - $15,000</a></td><td><a href="https://tinycorp.myshopify.com/products/tinybox-green-v2">IN STOCK - $29,000</td></tr>
   </table>
   <br/>
@@ -131,13 +131,13 @@
   <h2 id="faq">FAQ</h2>
   <dl class="faqtable">
     <dt>What is a tinybox?</dt>
-    <dd>It is a very powerful computer for deep learning, and likely the best performance/$. It was <a href="https://public.tableau.com/views/MLCommons-Training_16993769118290/MLCommons-Training">benchmarked</a> in MLPerf Training 4.0 vs computers that cost 10x as much. And of course, anything that can train can do inference.</dd>
+    <dd>It is a very powerful computer for deep learning, and likely the best performance/$. It was <a href="https://public.tableau.com/views/MLCommons-Training_16993769118290/MLCommons-Training" target="_blank">benchmarked</a> in MLPerf Training 4.0 vs computers that cost 10x as much. And of course, anything that can train can do inference.</dd>
 
     <dt>How do I get a tinybox?</dt>
     <dd>Place an order through the links above. The factory is up and running, and it will ship within one week of us receiving the payment. Currently offering pickup in San Diego + shipping worldwide.</dd>
 
     <dt>Where can I learn more about the tinybox?</dt>
-    <dd>We have a lot of content on our <a href="https://x.com/__tinygrad__">Twitter</a>, we also have a <a href="https://docs.tinygrad.org/tinybox/">tinybox docs page</a> and a #tinybox discord channel.</dd>
+    <dd>We have a lot of content on our <a href="https://x.com/__tinygrad__" target="_blank">Twitter</a>, we also have a <a href="https://docs.tinygrad.org/tinybox/" target="_blank">tinybox docs page</a> and a #tinybox discord channel.</dd>
 
     <dt>Can I customize my tinybox?</dt>
     <dd>In order to keep prices low and quality high, we don't offer any customization to the box or ordering process. Of course, after you buy the tinybox, it's yours and you are welcome to do whatever you want with it!</dd>
@@ -149,13 +149,13 @@
     <dd>In order to keep prices low and quality high, we don't offer any customization to the box or ordering process. Wire transfer is the only accepted form of payment.</dd>
 
     <dt>Is tinygrad used anywhere?</dt>
-    <dd>tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).</dd>
+    <dd>tinygrad is used in <a href="https://github.com/commaai/openpilot" target="_blank">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html" target="_blank">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).</dd>
 
     <dt>Is tinygrad inference only?</dt>
-    <dd>No! It supports full forward and backward passes with autodiff. <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/function.py">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.</dd>
+    <dd>No! It supports full forward and backward passes with autodiff. <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/function.py" target="_blank">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.</dd>
 
     <dt>How can I use tinygrad for my next ML project?</dt>
-    <dd>Follow the installation instructions on <a href="https://github.com/tinygrad/tinygrad">the tinygrad repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while tinygrad is in alpha, so be warned, though it's been fairly stable for a while.</dd>
+    <dd>Follow the installation instructions on <a href="https://github.com/tinygrad/tinygrad" target="_blank">the tinygrad repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while tinygrad is in alpha, so be warned, though it's been fairly stable for a while.</dd>
 
     <dt>When will tinygrad leave alpha?</dt>
     <dd>When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch. We also want the speed to be good on the M1. ETA, Q2 next year.</dd>
@@ -168,14 +168,14 @@
     </dd>
 
     <dt>Where is tinygrad development happening?</dt>
-    <dd>On GitHub and <a href="https://discord.com/invite/ZjZadyC7PK">on Discord</a></dd>
+    <dd>On GitHub and <a href="https://discord.com/invite/ZjZadyC7PK" target="_blank">on Discord</a></dd>
 
     <dt>How can the tiny corp work for me?</dt>
     <dd>Email me, george@tinygrad.org. We are looking for contracts and sponsorships to improve various aspects of
       tinygrad.</a></dd>
 
     <dt>How can I work for the tiny corp?</dt>
-    <dd>See <b>hiring</b> above. Contributions to <a href="https://github.com/tinygrad/tinygrad">tinygrad</a> on GitHub
+    <dd>See <b>hiring</b> above. Contributions to <a href="https://github.com/tinygrad/tinygrad" target="_blank">tinygrad</a> on GitHub
       always
       welcome, and a good way to get hired.</dd>
 
