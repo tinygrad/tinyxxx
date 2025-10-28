@@ -85,8 +85,7 @@
     example: SQRT, LOG2, ADD, MUL, WHERE, etc...<br/><br/>
   <b>ReduceOps</b> operate on one tensor and return a smaller tensor.<br/>
     example: SUM, MAX<br/><br/>
-  <b>MovementOps</b> are virtual ops that operate on one tensor and move the data around<br/>
-    Copy-free with <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/shape/shapetracker.py">ShapeTracker</a>.<br/>
+  <b>MovementOps</b> are virtual ops that operate on one tensor and move the data around copy-free.<br/>
     example: RESHAPE, PERMUTE, EXPAND, etc...<br/>
 
   <p>But how...where are your CONVs and MATMULs? Read the code to solve this mystery.</p>
