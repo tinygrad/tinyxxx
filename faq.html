@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ — tiny corp</title>
+  <link rel="stylesheet" href="assets/tinybox.css">
+</head>
+<body>
+  <header>
+    <a class="logo" href="index.html" aria-label="tiny corp home">
+      <svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 0h10v10h10v10H20v10h10v10H10V20H0V10h10z M40 0h10v10H40z M40 20h10v20H40z M60 10h20v10h10v20H80V20H70v20H60z M100 10h10v10h10V10h10v30h-10V30h-20z M100 40h20v10h-20z"/>
+      </svg>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="index.html">tinybox</a>
+      <a href="https://docs.tinygrad.org/tinybox/">docs</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="intro"><h1>FAQ</h1></div>
+    <dl class="faqtable">
+      <dt>What is a tinybox?</dt>
+      <dd>It is a very powerful computer for deep learning, and likely the best performance/$. It was <a href="https://public.tableau.com/views/MLCommons-Training_16993769118290/MLCommons-Training">benchmarked</a> in MLPerf Training 4.0 vs computers that cost 10x as much. And of course, anything that can train can do inference.</dd>
+
+      <dt>How do I get a tinybox?</dt>
+      <dd><a href="index.html">Configure your tinybox</a> or visit <a href="https://tinycorp.myshopify.com/">the shop</a>. The new tinybox is made to order and ships in 1–8 weeks. Fully insured UPS delivery takes 3–10 days after dispatch. If your country appears at checkout, we ship there. See <a href="index.html#order-terms">payment, shipping, and return terms</a>.</dd>
+
+      <dt>Where can I learn more about the tinybox?</dt>
+      <dd>We have a lot of content on our <a href="https://x.com/__tinygrad__">Twitter</a>, we also have a <a href="https://docs.tinygrad.org/tinybox/">tinybox docs page</a> and a #tinybox discord channel.</dd>
+
+      <dt>Can I customize my tinybox?</dt>
+      <dd>Yes. <a href="index.html">Configure the new tinybox</a> with your choice of memory, storage, and GPUs. After you buy it, it's yours and you are welcome to do whatever you want with it!</dd>
+
+      <dt>Can you fill out this supplier onboarding form?</dt>
+      <dd>In order to keep prices low and quality high, we don't offer any customization to the ordering process. If you aren't capable of ordering through the website, I'm sorry but we won't be able to help.</dd>
+
+      <dt>Can I pay with something besides wire transfer?</dt>
+      <dd>Bank transfer / wire only. Complete payment within 5 days of order confirmation to guarantee your order.</dd>
+
+      <dt>Can I contact someone at tiny to discuss my needs?</dt>
+      <dd>In order to keep prices low and quality high, we don't employ any sales people. We sell boxes through the website. The upside of this is that our pricing is simple and transparent.</dd>
+
+      <dt>Can I get a W-9 for this purchase?</dt>
+      <dd>Yes, you can <a href="assets/fw9.pdf">download that here</a>.</dd>
+
+      <dt>Is tinygrad used anywhere?</dt>
+      <dd>tinygrad is used in <a href="https://github.com/commaai/openpilot">openpilot</a> to run the driving model on the Snapdragon 845 GPU. It replaces <a href="https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html">SNPE</a>, is faster, supports loading onnx files, supports training, and allows for attention (SNPE only allows fixed weights).</dd>
+
+      <dt>Is tinygrad inference only?</dt>
+      <dd>No! It supports full forward and backward passes with autodiff. <a href="https://github.com/tinygrad/tinygrad/blob/master/tinygrad/gradient.py">This</a> is implemented at a level of abstraction higher than the accelerator specific code, so a tinygrad port gets you this for free.</dd>
+
+      <dt>How can I use tinygrad for my next ML project?</dt>
+      <dd>Follow the installation instructions on <a href="https://github.com/tinygrad/tinygrad">the tinygrad repo</a>. It has a similar API to PyTorch, yet simpler and more refined. Less stable though while tinygrad is in alpha, so be warned, though it's been fairly stable for a while.</dd>
+
+      <dt>When will tinygrad leave alpha?</dt>
+      <dd>When we can reproduce a common set of papers on 1 NVIDIA GPU 2x faster than PyTorch. We also want the speed to be good on the M1. ETA, Q2 next year.</dd>
+
+      <dt>How is tinygrad faster than PyTorch?</dt>
+      <dd>For most use cases it isn't yet, but it will be. It has three advantages:
+        <ul>
+          <li>It compiles a custom kernel for every operation, allowing extreme shape specialization.</li>
+          <li>All tensors are lazy, so it can aggressively fuse operations.</li>
+          <li>The backend is 10x+ simpler, meaning optimizing one kernel makes everything fast.</li>
+        </ul>
+      </dd>
+
+      <dt>Where is tinygrad development happening?</dt>
+      <dd>On GitHub and <a href="https://discord.com/invite/ZjZadyC7PK">on Discord</a></dd>
+
+      <dt>How can the tiny corp work for me?</dt>
+      <dd>Email me, george@tinygrad.org. We are looking for contracts and sponsorships to improve various aspects of tinygrad.</dd>
+
+      <dt>How can I work for the tiny corp?</dt>
+      <dd>See <a href="old.html#worktiny">hiring</a>. Contributions to <a href="https://github.com/tinygrad/tinygrad">tinygrad</a> on GitHub always welcome, and a good way to get hired.</dd>
+
+      <dt>Can I invest in the tiny corp?</dt>
+      <dd>Invest with your PRs.</dd>
+
+      <dt>What's the goal of the tiny corp?</dt>
+      <dd>To accelerate. We will commoditize the petaflop and enable AI for everyone.</dd>
+    </dl>
+  </main>
+
+  <footer>
+    <span>tiny corp</span>
+    <a href="https://tinycorp.myshopify.com/pages/mailing-list" title="Updates on products and inventory">Mailing list ↗</a>
+    <a href="https://github.com/tinygrad/tinygrad">GitHub ↗</a>
+    <a href="https://discord.com/invite/ZjZadyC7PK">Discord ↗</a>
+    <a href="https://tinycorp.myshopify.com/">Other products ↗</a>
+  </footer>
+</body>
+</html>
