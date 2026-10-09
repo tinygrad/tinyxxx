@@ -109,7 +109,10 @@ function update() {
 }
 
 form.addEventListener('change', event => {
-  if (event.target.name === 'platform') renderMemory();
+  if (event.target.name === 'platform') {
+    renderMemory();
+    renderGallery();
+  }
   update();
 });
 form.addEventListener('submit', event => {
@@ -133,15 +136,35 @@ const views = {
   rtx5090: 'Interior with 2× RTX 5090',
   rx9070xt: 'Interior with 4× 9070XT',
 };
-document.querySelectorAll('[data-view]').forEach(button => {
-  button.addEventListener('click', () => {
+// Exterior shots are shared. Rear and interior shots match the platform.
+const platformViews = [
+  { back: 'back-g4', inside: 'inside', gpu: 'rtx5090' }, // SP4 / G4
+  { back: 'back', inside: 'inside-g5', gpu: 'rx9070xt' }, // SP5 / G5
+];
+let currentView = 'front';
+const viewButtons = document.querySelectorAll('[data-view]');
+function renderGallery() {
+  const platform = selected('platform');
+  for (const button of viewButtons) {
     const view = button.dataset.view;
-    const photo = document.querySelector('#product-photo');
-    photo.src = `assets/tinybox/${view}.webp`;
-    photo.alt = `The new tinybox — ${views[view]}`;
-    document.querySelector('#photo-caption').textContent = views[view];
-    document.querySelectorAll('[data-view]').forEach(item => {
-      item.setAttribute('aria-pressed', String(item === button));
-    });
+    const image = platformViews[platform][view] || view;
+    const src = `assets/tinybox/${image}.webp`;
+    const caption = views[image] || views[view];
+    button.querySelector('img').src = src;
+    button.setAttribute('aria-label', caption);
+    button.setAttribute('aria-pressed', String(view === currentView));
+    if (view === currentView) {
+      const photo = document.querySelector('#product-photo');
+      photo.src = src;
+      photo.alt = `The new tinybox ${platforms[platform].name} — ${caption}`;
+      document.querySelector('#photo-caption').textContent = caption;
+    }
+  }
+}
+viewButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    currentView = button.dataset.view;
+    renderGallery();
   });
 });
+renderGallery();
