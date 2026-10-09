@@ -11,7 +11,7 @@ const platforms = [
   ] },
 ];
 const storage = [
-  { name: 'None', price: 0 },
+  { name: 'None', price: 0, detail: 'Boot drive only' },
   { name: '4 TB RAID', drives: '4x 1 TB drives', price: 2000, id: '67507609764058' },
   { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
 ];
@@ -68,7 +68,7 @@ document.querySelector('#platform-choices').innerHTML = choices('platform', plat
 for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
   document.querySelector(`#${name}-choices`).innerHTML = choices(name, options.map(option => ({
     label: option.name,
-    detail: option.price ? '+' + money(cost(option)) : 'No extra cost',
+    detail: option.price ? '+' + money(cost(option)) : (option.detail || 'No extra cost'),
   })));
 }
 
