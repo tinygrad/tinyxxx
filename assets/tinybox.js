@@ -32,10 +32,10 @@ const cost = item => item.price * (item.quantity || 1);
 const form = document.querySelector('#configurator');
 const checkout = document.querySelector('#checkout');
 
-function choices(name, options) {
+function choices(name, options, selectedIndex = 0) {
   return options.map((option, index) => `
     <label class="choice">
-      <input type="radio" name="${name}" value="${index}" ${index === 0 ? 'checked' : ''}>
+      <input type="radio" name="${name}" value="${index}" ${index === selectedIndex ? 'checked' : ''}>
       <span class="choice-content">
         <span>
           <span class="choice-title">${option.label}</span>
@@ -73,12 +73,12 @@ for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
 }
 
 const selected = name => Number(form.elements.namedItem(name).value);
-function renderMemory() {
+function renderMemory(selectedIndex = 0) {
   const platform = platforms[selected('platform')];
   document.querySelector('#memory-choices').innerHTML = choices('memory', platform.memory.map(memory => ({
     label: `${memory.gb} GB`,
     detail: memory.gb === 32 ? 'Included' : '+' + money(memory.price - platform.memory[0].price),
-  })));
+  })), selectedIndex);
 }
 
 function selection() {
@@ -110,7 +110,7 @@ function update() {
 
 form.addEventListener('change', event => {
   if (event.target.name === 'platform') {
-    renderMemory();
+    renderMemory(selected('memory'));
     renderGallery();
   }
   update();
