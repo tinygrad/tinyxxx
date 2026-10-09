@@ -143,23 +143,34 @@ const platformViews = [
 ];
 let currentView = 'front';
 const viewButtons = document.querySelectorAll('[data-view]');
-function renderGallery() {
+async function renderGallery() {
   const platform = selected('platform');
+  const activeView = currentView;
   for (const button of viewButtons) {
     const view = button.dataset.view;
-    const image = platformViews[platform][view] || view;
-    const src = `assets/tinybox/${image}.webp`;
-    const caption = views[image] || views[view];
-    button.querySelector('img').src = src;
-    button.setAttribute('aria-label', caption);
-    button.setAttribute('aria-pressed', String(view === currentView));
-    if (view === currentView) {
-      const photo = document.querySelector('#product-photo');
-      photo.src = src;
-      photo.alt = `The new tinybox ${platforms[platform].name} — ${caption}`;
-      document.querySelector('#photo-caption').textContent = caption;
-    }
+    const name = platformViews[platform][view] || view;
+    const src = `assets/tinybox/${name}.webp`;
+    const thumbnail = button.querySelector('img');
+    if (thumbnail.getAttribute('src') !== src) thumbnail.src = src;
+    button.setAttribute('aria-label', views[name] || views[view]);
+    button.setAttribute('aria-pressed', String(view === activeView));
   }
+  const name = platformViews[platform][activeView] || activeView;
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = `assets/tinybox/${name}.webp`;
+  // Decode only the selected photo, keeping the previous one visible until ready.
+  try {
+    await image.decode();
+  } catch {
+    return;
+  }
+  if (platform !== selected('platform') || activeView !== currentView) return;
+  const photo = document.querySelector('#product-photo');
+  const caption = views[name] || views[activeView];
+  if (photo.src !== image.src) photo.src = image.src;
+  photo.alt = `The new tinybox ${platforms[platform].name} — ${caption}`;
+  document.querySelector('#photo-caption').textContent = caption;
 }
 viewButtons.forEach(button => {
   button.addEventListener('click', () => {
