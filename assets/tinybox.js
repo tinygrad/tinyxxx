@@ -127,50 +127,21 @@ renderMemory();
 update();
 form.hidden = false;
 
-const views = {
-  front: 'Front view',
-  'three-quarter': 'Three-quarter view',
-  side: 'Side view',
-  back: 'Rear view',
-  inside: 'Empty side view',
-  rtx5090: 'Interior with 2× RTX 5090',
-  rx9070xt: 'Interior with 4× 9070XT',
-};
-// Exterior shots are shared. Rear and interior shots match the platform.
-const platformViews = [
-  { back: 'back-g4', inside: 'inside', gpu: 'rtx5090' }, // SP4 / G4
-  { back: 'back', inside: 'inside-g5', gpu: 'rx9070xt' }, // SP5 / G5
-];
 let currentView = 'front';
-const viewButtons = document.querySelectorAll('[data-view]');
-async function renderGallery() {
-  const platform = selected('platform');
-  const activeView = currentView;
+const photos = document.querySelectorAll('.photo-stage img');
+const viewButtons = document.querySelectorAll('.views button');
+function renderGallery() {
+  const platform = platforms[selected('platform')].name;
+  const matchesPlatform = item => !item.dataset.platform || item.dataset.platform === platform;
+  for (const photo of photos) {
+    photo.hidden = !matchesPlatform(photo) || photo.dataset.view !== currentView;
+  }
   for (const button of viewButtons) {
-    const view = button.dataset.view;
-    const name = platformViews[platform][view] || view;
-    const src = `assets/tinybox/${name}.webp`;
-    const thumbnail = button.querySelector('img');
-    if (thumbnail.getAttribute('src') !== src) thumbnail.src = src;
-    button.setAttribute('aria-label', views[name] || views[view]);
-    button.setAttribute('aria-pressed', String(view === activeView));
+    button.hidden = !matchesPlatform(button);
+    const active = !button.hidden && button.dataset.view === currentView;
+    button.setAttribute('aria-pressed', String(active));
+    if (active) document.querySelector('#photo-caption').textContent = button.getAttribute('aria-label');
   }
-  const name = platformViews[platform][activeView] || activeView;
-  const image = new Image();
-  image.decoding = 'async';
-  image.src = `assets/tinybox/${name}.webp`;
-  // Decode only the selected photo, keeping the previous one visible until ready.
-  try {
-    await image.decode();
-  } catch {
-    return;
-  }
-  if (platform !== selected('platform') || activeView !== currentView) return;
-  const photo = document.querySelector('#product-photo');
-  const caption = views[name] || views[activeView];
-  if (photo.src !== image.src) photo.src = image.src;
-  photo.alt = `The new tinybox ${platforms[platform].name} — ${caption}`;
-  document.querySelector('#photo-caption').textContent = caption;
 }
 viewButtons.forEach(button => {
   button.addEventListener('click', () => {
