@@ -1,11 +1,11 @@
 // USD prices. Add Shopify IDs for the base systems and upgrades, not every
 // possible combination. Each ID is the purchasable variant of that one item.
 const platforms = [
-  { name: 'G4', ddr: 'DDR4', cpu: 'EPYC', pcie: 'PCIe 4', memory: [
+  { name: 'G4', ddr: 'DDR4', cpu: 'EPYC', pcie: 'PCIe 4', networking: '2× 1GbE + OCP3.0', memory: [
     { gb: 32, price: 7000, id: '50492208677082' },
     { gb: 128, price: 10000, id: '50492208742618' },
   ] },
-  { name: 'G5', ddr: 'DDR5', cpu: 'GENOA', pcie: 'PCIe 5', memory: [
+  { name: 'G5', ddr: 'DDR5', cpu: 'GENOA', pcie: 'PCIe 5', networking: '2× 10GbE + OCP3.0 PCIe5', memory: [
     { gb: 32, price: 12000, id: '50492208611546' },
     { gb: 192, price: 20000, id: '50492208808154' },
   ] },
@@ -94,6 +94,7 @@ function update() {
     cpu: `32 core ${platform.cpu}, water cooled`,
     memory: `${base.gb} GB ${platform.ddr}`,
     storage: '1 TB boot SSD' + (extra.price ? ` + ${extra.drives}` : ''),
+    networking: platform.networking,
     gpu: gpu.name,
   };
   for (const [name, value] of Object.entries(specs)) {
