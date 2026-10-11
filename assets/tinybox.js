@@ -16,13 +16,10 @@ const storage = [
   { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
 ];
 // GPU RAM is per card in GB; multiply by quantity for the system total.
-const rtx5090 = { price: 8000, id: '67511688823002', ram: 32 };
 const rtx = { price: 19000, id: '67507610321114', ram: 96 }; // One RTX 6000; use quantity 2 for two.
 const gpus = [
   { name: 'None', price: 0, ram: 0 },
   { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, quantity: 4 },
-  { name: '1× NVIDIA RTX 5090', ...rtx5090, quantity: 1 },
-  { name: '2× NVIDIA RTX 5090', ...rtx5090, quantity: 2 },
   { name: '1× NVIDIA RTX 6000', ...rtx, quantity: 1 },
   { name: '2× NVIDIA RTX 6000', ...rtx, quantity: 2 },
 ];
