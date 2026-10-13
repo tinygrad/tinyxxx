@@ -93,25 +93,30 @@ function renderMemory(selectedIndex = 0) {
 }
 
 const isPro = () => platforms[selected('platform')].name === 'pro';
+const storageLocked = () => isPro() || gpus[selected('gpu')].quantity === 6;
 let savedStorage = 0;
 let savedGpu = 0;
+function renderStorage() {
+  const locked = storageLocked();
+  form.elements.namedItem('storage').value = String(locked ? 0 : savedStorage);
+  for (const input of form.querySelectorAll('input[name="storage"]')) {
+    input.disabled = locked && input.value !== '0';
+  }
+}
 function renderPlatform() {
   const pro = isPro();
-  form.elements.namedItem('storage').value = String(pro ? 0 : savedStorage);
-  for (const input of form.querySelectorAll('input[name="storage"]')) {
-    input.disabled = pro && input.value !== '0';
-  }
   form.elements.namedItem('gpu').value = String(pro ? gpus.findIndex(gpu => gpu.pro) : savedGpu);
   for (const input of form.querySelectorAll('input[name="gpu"]')) {
     input.disabled = Boolean(gpus[Number(input.value)].pro) !== pro;
   }
+  renderStorage();
 }
 
 function selection() {
   const platform = platforms[selected('platform')];
   const memory = platform.memory[selected('memory')];
   const base = platform.base;
-  const extra = storage[isPro() ? 0 : selected('storage')];
+  const extra = storage[storageLocked() ? 0 : selected('storage')];
   const gpu = gpus[selected('gpu')];
   const items = [base, memory, extra, gpu].filter(item => item.price > 0);
   return { platform, base, memory, extra, gpu, items, ready: base.price != null && Boolean(base.id) && items.every(item => item.id) };
@@ -171,8 +176,11 @@ form.addEventListener('change', event => {
     renderPlatform();
     renderGallery();
   }
-  if (event.target.name === 'storage' && !isPro()) savedStorage = selected('storage');
-  if (event.target.name === 'gpu' && !isPro()) savedGpu = selected('gpu');
+  if (event.target.name === 'storage' && !storageLocked()) savedStorage = selected('storage');
+  if (event.target.name === 'gpu') {
+    if (!isPro()) savedGpu = selected('gpu');
+    renderStorage();
+  }
   update();
 });
 form.addEventListener('submit', event => {
