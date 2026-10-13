@@ -113,23 +113,27 @@ function renderMemory(selectedIndex = 0) {
 }
 
 const isPro = () => platforms[selected('platform')].name === 'pro';
-const storageLocked = () => isPro() || gpus[selected('gpu')].quantity === 6;
+function compatible(platform, extra, gpu) {
+  const pro = platform.name === 'pro';
+  return Boolean(gpu.pro) === pro && (!extra.price || (!pro && gpu.quantity !== 6));
+}
 let savedStorage = 0;
 let savedGpu = 0;
-function renderStorage() {
-  const locked = storageLocked();
-  form.elements.namedItem('storage').value = String(locked ? 0 : savedStorage);
+function renderAvailability() {
+  const platform = platforms[selected('platform')];
+  const extra = storage[selected('storage')];
+  const gpu = gpus[selected('gpu')];
   for (const input of form.querySelectorAll('input[name="storage"]')) {
-    input.disabled = locked && input.value !== '0';
+    input.disabled = !compatible(platform, storage[Number(input.value)], gpu);
+  }
+  for (const input of form.querySelectorAll('input[name="gpu"]')) {
+    input.disabled = !compatible(platform, extra, gpus[Number(input.value)]);
   }
 }
 function renderPlatform() {
   const pro = isPro();
   form.elements.namedItem('gpu').value = String(pro ? gpus.findIndex(gpu => gpu.pro) : savedGpu);
-  for (const input of form.querySelectorAll('input[name="gpu"]')) {
-    input.disabled = Boolean(gpus[Number(input.value)].pro) !== pro;
-  }
-  renderStorage();
+  form.elements.namedItem('storage').value = String(pro ? 0 : savedStorage);
 }
 
 function applyPreset(index) {
@@ -154,15 +158,17 @@ function selection() {
   const platform = platforms[selected('platform')];
   const memory = platform.memory[selected('memory')];
   const base = platform.base;
-  const extra = storage[storageLocked() ? 0 : selected('storage')];
+  const extra = storage[selected('storage')];
   const gpu = gpus[selected('gpu')];
+  const valid = compatible(platform, extra, gpu);
   const items = [base, memory, extra, gpu].filter(item => item.price > 0);
-  return { platform, base, memory, extra, gpu, items, ready: base.price != null && Boolean(base.id) && items.every(item => item.id) };
+  return { platform, base, memory, extra, gpu, items, valid, ready: valid && base.price != null && Boolean(base.id) && items.every(item => item.id) };
 }
 
 function update() {
+  renderAvailability();
   syncPreset();
-  const { platform, base, memory, extra, gpu, items, ready } = selection();
+  const { platform, base, memory, extra, gpu, items, valid, ready } = selection();
   const pro = isPro();
   const priced = base.price != null;
   document.querySelector('#total').value = priced ? money(items.reduce((sum, item) => sum + cost(item), 0)) : '—';
@@ -204,7 +210,7 @@ function update() {
   checkout.disabled = !ready;
   const note = document.querySelector('#checkout-note');
   note.hidden = ready;
-  note.textContent = pro
+  note.textContent = !valid ? 'Choose compatible storage and GPUs.' : pro
     ? (priced ? 'Pro checkout not connected yet.' : 'Pro base pricing and checkout are not connected yet.')
     : 'Checkout not connected.';
 }
@@ -227,10 +233,9 @@ form.addEventListener('change', event => {
     renderPlatform();
     renderGallery();
   }
-  if (event.target.name === 'storage' && !storageLocked()) savedStorage = selected('storage');
-  if (event.target.name === 'gpu') {
-    if (!isPro()) savedGpu = selected('gpu');
-    renderStorage();
+  if (!isPro() && selection().valid) {
+    if (event.target.name === 'storage') savedStorage = selected('storage');
+    if (event.target.name === 'gpu') savedGpu = selected('gpu');
   }
   update();
 });
