@@ -1,14 +1,23 @@
 // USD prices. Add Shopify IDs for the base systems and upgrades, not every
 // possible combination. Each ID is the purchasable variant of that one item.
+const ddr5Upgrade = { price: 8000, id: '67533223985370' }; // One 192 GB DDR5 upgrade.
 const platforms = [
-  { name: 'G4', ddr: 'DDR4', cpu: 'EPYC', pcie: 'PCIe 4', networking: '2× 1GbE + OCP3.0', memory: [
-    { gb: 32, price: 7000, id: '50492208677082' },
-    { gb: 128, price: 10000, id: '50492208742618' },
-  ] },
-  { name: 'G5', ddr: 'DDR5', cpu: 'GENOA', pcie: 'PCIe 5', networking: '2× 10GbE + OCP3.0 PCIe5', memory: [
-    { gb: 32, price: 12000, id: '50492208611546' },
-    { gb: 192, price: 20000, id: '50492208808154' },
-  ] },
+  { name: 'G4', ddr: 'DDR4', cpu: 'EPYC', pcie: 'PCIe 4', networking: '2× 1GbE + OCP3.0',
+    base: { price: 7000, id: '50492208677082' }, memory: [
+      { gb: 32, price: 0 },
+      { gb: 128, price: 3000, id: '67533222641882' },
+    ] },
+  { name: 'G5', ddr: 'DDR5', cpu: 'GENOA', pcie: 'PCIe 5', networking: '2× 10GbE + OCP3.0 PCIe5',
+    base: { price: 12000, id: '50492208611546' }, memory: [
+      { gb: 32, price: 0 },
+      { gb: 192, ...ddr5Upgrade },
+    ] },
+  // Separate Pro base-system product; memory and GPUs are separate add-ons.
+  { name: 'pro', ddr: 'DDR5', cpu: '2× 128 core AMD GENOA', pcie: 'PCIe 5', networking: '2× 1GbE + 2× open 16x PCIe5 slots',
+    base: { price: 32000, id: '67533215760602' }, memory: [
+      { gb: 64, price: 0 },
+      { gb: 384, ...ddr5Upgrade, quantity: 2 },
+    ] },
 ];
 const storage = [
   { name: 'None', price: 0, detail: 'Boot drive only' },
@@ -16,12 +25,14 @@ const storage = [
   { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
 ];
 // GPU RAM is per card in GB; multiply by quantity for the system total.
-const rtx = { price: 19000, id: '67507610321114', ram: 96, vendor: 'nvidia' }; // One RTX 6000; use quantity 2 for two.
+const rtx = { price: 19000, id: '67507610321114', ram: 96, vendor: 'nvidia' }; // One RTX 6000; quantities 1, 2, or 8.
 const gpus = [
   { name: 'None', price: 0, ram: 0 },
   { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, quantity: 4, vendor: 'amd' },
+  { name: '6× AMD R9700', price: 2000, id: '67533174571226', ram: 32, quantity: 6, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' },
   { name: '1× NVIDIA RTX 6000', ...rtx, quantity: 1 },
   { name: '2× NVIDIA RTX 6000', ...rtx, quantity: 2 },
+  { name: '8x NVIDIA RTX 6000', ...rtx, quantity: 8, pro: true },
 ];
 const shop = 'https://tinycorp.myshopify.com';
 const money = value => '$' + value.toLocaleString('en-US');
@@ -45,7 +56,7 @@ function choices(name, options, selectedIndex = 0) {
 }
 
 function fieldset(name, title, step) {
-  return `<fieldset>
+  return `<fieldset id="${name}-fieldset">
     <legend><span class="step">0${step}</span>${title}</legend>
     <div id="${name}-choices" class="choices ${name}"></div>
   </fieldset>`;
@@ -60,7 +71,9 @@ document.querySelector('#options').innerHTML = [
 
 document.querySelector('#platform-choices').innerHTML = choices('platform', platforms.map(platform => ({
   label: platform.name,
-  detail: `${platform.ddr} / ${platform.cpu}<br>${platform.pcie}<br>${money(platform.memory[0].price)} base`,
+  detail: platform.name === 'pro'
+    ? `5U rackmount<br>Dual GENOA<br>PCIe 5<br>${money(platform.base.price)} base`
+    : `${platform.ddr}<br>${platform.cpu}<br>${platform.pcie}<br>${money(platform.base.price)} base`,
 })));
 for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
   document.querySelector(`#${name}-choices`).innerHTML = choices(name, options.map(option => ({
@@ -75,42 +88,79 @@ function renderMemory(selectedIndex = 0) {
   const platform = platforms[selected('platform')];
   document.querySelector('#memory-choices').innerHTML = choices('memory', platform.memory.map(memory => ({
     label: `${memory.gb} GB`,
-    detail: memory.gb === 32 ? 'Included' : '+' + money(memory.price - platform.memory[0].price),
+    detail: memory.price ? '+' + money(cost(memory)) : 'Included',
   })), selectedIndex);
+}
+
+const isPro = () => platforms[selected('platform')].name === 'pro';
+let savedStorage = 0;
+let savedGpu = 0;
+function renderPlatform() {
+  const pro = isPro();
+  form.elements.namedItem('storage').value = String(pro ? 0 : savedStorage);
+  for (const input of form.querySelectorAll('input[name="storage"]')) {
+    input.disabled = pro && input.value !== '0';
+  }
+  form.elements.namedItem('gpu').value = String(pro ? gpus.findIndex(gpu => gpu.pro) : savedGpu);
+  for (const input of form.querySelectorAll('input[name="gpu"]')) {
+    input.disabled = Boolean(gpus[Number(input.value)].pro) !== pro;
+  }
 }
 
 function selection() {
   const platform = platforms[selected('platform')];
-  const base = platform.memory[selected('memory')];
-  const extra = storage[selected('storage')];
+  const memory = platform.memory[selected('memory')];
+  const base = platform.base;
+  const extra = storage[isPro() ? 0 : selected('storage')];
   const gpu = gpus[selected('gpu')];
-  const items = [base, extra, gpu].filter(item => item.price > 0);
-  return { platform, base, extra, gpu, items, ready: items.every(item => item.id) };
+  const items = [base, memory, extra, gpu].filter(item => item.price > 0);
+  return { platform, base, memory, extra, gpu, items, ready: base.price != null && Boolean(base.id) && items.every(item => item.id) };
 }
 
 function update() {
-  const { platform, base, extra, gpu, items, ready } = selection();
-  document.querySelector('#total').value = money(items.reduce((sum, item) => sum + cost(item), 0));
+  const { platform, base, memory, extra, gpu, items, ready } = selection();
+  const pro = isPro();
+  const priced = base.price != null;
+  document.querySelector('#total').value = priced ? money(items.reduce((sum, item) => sum + cost(item), 0)) : '—';
+  document.querySelector('.currency').hidden = !priced;
+  document.querySelector('#order-model').textContent = pro ? 'Your tinybox pro' : 'Your tinybox';
+  document.querySelector('#lead-time').textContent = 'Ships in 1–8 weeks.';
+  document.querySelector('#shipping-terms').textContent = pro
+    ? 'Fully insured freight shipping worldwide, approximately $800–1,800 depending on location. If your country appears at checkout, we ship there.'
+    : 'Fully insured UPS shipping worldwide. If your country appears at checkout, we ship there. Allow 3–10 days for delivery after dispatch.';
   const specs = {
     platform: `${platform.name} / ${platform.pcie}`,
-    cpu: `32 core ${platform.cpu}, water cooled`,
-    memory: `${base.gb} GB ${platform.ddr}`,
+    cpu: pro ? platform.cpu : `32 core ${platform.cpu}, water cooled`,
+    memory: `${memory.gb} GB ${platform.ddr}`,
     storage: '1 TB boot SSD' + (extra.price ? ` + ${extra.drives}` : ''),
-    networking: platform.networking,
+    networking: platform.networking || 'Not specified',
     gpu: gpu.name + (gpu.ram ? `, ${gpu.ram * (gpu.quantity || 1)} GB VRAM` : ''),
+    power: pro ? '4× 2000W, requires 208V–240V' : '1700W PSU, 100V~240V',
+    noise: pro ? 'loud' : (gpu.noise || '< 50 dB, low speed Noctua fans'),
+    board: 'Server grade with BMC',
+    slots: pro ? '8 GPUs on PCIe 5 x16' : `Up to ${Math.max(4, gpu.quantity || 0)} GPUs, full-fabric PCIe`,
+    size: pro ? '92 lbs, 5U, 31″ deep' : '42 lbs, 12″W × 19¼″H × 18″D',
   };
   for (const [name, value] of Object.entries(specs)) {
     document.querySelector(`#spec-${name}`).textContent = value;
   }
+  document.querySelector('#spec-noise').classList.toggle('noise-warning', !pro && Boolean(gpu.noise));
   checkout.disabled = !ready;
-  document.querySelector('#checkout-note').hidden = ready;
+  const note = document.querySelector('#checkout-note');
+  note.hidden = ready;
+  note.textContent = pro
+    ? (priced ? 'Pro checkout not connected yet.' : 'Pro base pricing and checkout are not connected yet.')
+    : 'Checkout not connected.';
 }
 
 form.addEventListener('change', event => {
   if (event.target.name === 'platform') {
     renderMemory(selected('memory'));
+    renderPlatform();
     renderGallery();
   }
+  if (event.target.name === 'storage' && !isPro()) savedStorage = selected('storage');
+  if (event.target.name === 'gpu' && !isPro()) savedGpu = selected('gpu');
   update();
 });
 form.addEventListener('submit', event => {
@@ -122,6 +172,7 @@ form.addEventListener('submit', event => {
   }
 });
 renderMemory();
+renderPlatform();
 update();
 form.hidden = false;
 
@@ -129,13 +180,18 @@ let currentView = 'front';
 const photos = document.querySelectorAll('.photo-stage img');
 const viewButtons = document.querySelectorAll('.views button');
 function renderGallery() {
+  const model = isPro() ? 'pro' : 'tinybox';
   const platform = platforms[selected('platform')].name;
-  const matchesPlatform = item => !item.dataset.platform || item.dataset.platform === platform;
+  const matches = item => (item.dataset.model || 'tinybox') === model &&
+    (!item.dataset.platform || item.dataset.platform === platform);
+  if (![...viewButtons].some(button => matches(button) && button.dataset.view === currentView)) {
+    currentView = 'front';
+  }
   for (const photo of photos) {
-    photo.hidden = !matchesPlatform(photo) || photo.dataset.view !== currentView;
+    photo.hidden = !matches(photo) || photo.dataset.view !== currentView;
   }
   for (const button of viewButtons) {
-    button.hidden = !matchesPlatform(button);
+    button.hidden = !matches(button);
     const active = !button.hidden && button.dataset.view === currentView;
     button.setAttribute('aria-pressed', String(active));
     if (active) document.querySelector('#photo-caption').textContent = button.getAttribute('aria-label');
