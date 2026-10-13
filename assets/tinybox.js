@@ -148,7 +148,6 @@ function syncPreset() {
   for (const input of form.querySelectorAll('input[name="preset"]')) {
     input.checked = Number(input.value) === index;
   }
-  document.querySelector('#custom-config-note').hidden = index !== -1;
 }
 
 function selection() {
@@ -211,6 +210,9 @@ function update() {
 }
 
 advancedMode.addEventListener('change', () => {
+  if (!advancedMode.checked) {
+    applyPreset(presets.findIndex(preset => preset.platform === selected('platform')));
+  }
   document.querySelector('#options').hidden = !advancedMode.checked;
   document.querySelector('#presets').hidden = advancedMode.checked;
 });
