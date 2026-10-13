@@ -24,12 +24,12 @@ const storage = [
   { name: '4 TB RAID', drives: '4x 1 TB drives', price: 2000, id: '67507609764058' },
   { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
 ];
-// GPU RAM is per card in GB; multiply by quantity for the system total.
-const rtx = { price: 19000, id: '67507610321114', ram: 96, vendor: 'nvidia' }; // One RTX 6000; quantities 1, 2, or 8.
+// GPU RAM (GB) and memory bandwidth (GB/s) are per card; multiply by quantity for aggregate totals.
+const rtx = { price: 19000, id: '67507610321114', ram: 96, bandwidth: 1792, vendor: 'nvidia', architecture: 'Blackwell' }; // One RTX 6000; quantities 1, 2, or 8.
 const gpus = [
-  { name: 'None', price: 0, ram: 0 },
-  { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, quantity: 4, vendor: 'amd' },
-  { name: '6× AMD R9700', price: 2000, id: '67533174571226', ram: 32, quantity: 6, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' },
+  { name: 'None', price: 0, ram: 0, bandwidth: 0 },
+  { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
+  { name: '6× AMD R9700', price: 2000, id: '67533174571226', ram: 32, bandwidth: 640, quantity: 6, vendor: 'amd', note: 'limited to 225W', noise: '< 60 dB, GPU blowers are audible' },
   { name: '1× NVIDIA RTX 6000', ...rtx, quantity: 1 },
   { name: '2× NVIDIA RTX 6000', ...rtx, quantity: 2 },
   { name: '8x NVIDIA RTX 6000', ...rtx, quantity: 8, pro: true },
@@ -134,7 +134,8 @@ function update() {
     memory: `${memory.gb} GB ${platform.ddr}`,
     storage: '1 TB boot SSD' + (extra.price ? ` + ${extra.drives}` : ''),
     networking: platform.networking || 'Not specified',
-    gpu: gpu.name + (gpu.ram ? `, ${gpu.ram * (gpu.quantity || 1)} GB VRAM` : ''),
+    gpu: gpu.name + (gpu.architecture ? ` ${gpu.architecture}` : ''),
+    'gpu-ram': `${gpu.ram * (gpu.quantity || 1)} GB, ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
     power: pro ? '4× 2000W, requires 208V–240V' : '1700W PSU, 100V~240V',
     noise: pro ? 'loud' : (gpu.noise || '< 50 dB, low speed Noctua fans'),
     board: 'Server grade with BMC',
@@ -144,7 +145,18 @@ function update() {
   for (const [name, value] of Object.entries(specs)) {
     document.querySelector(`#spec-${name}`).textContent = value;
   }
-  document.querySelector('#spec-noise').classList.toggle('noise-warning', !pro && Boolean(gpu.noise));
+  if (gpu.note) {
+    const note = document.createElement('span');
+    note.className = 'spec-note';
+    note.textContent = ` (${gpu.note})`;
+    document.querySelector('#spec-gpu').append(note);
+  }
+  if (!pro && gpu.noise) {
+    const warning = document.createElement('span');
+    warning.className = 'noise-warning';
+    warning.textContent = gpu.noise.split(',')[0];
+    document.querySelector('#spec-noise').replaceChildren(warning, gpu.noise.slice(warning.textContent.length));
+  }
   checkout.disabled = !ready;
   const note = document.querySelector('#checkout-note');
   note.hidden = ready;

@@ -46,7 +46,7 @@ h2 { font-size: 24px; margin: 0; }
 .specs dl > div { display: flex; gap: 16px; border-bottom: 1px solid var(--line); padding: 12px 0; }
 .specs dt { flex: 0 0 100px; }
 .specs dd { margin: 0; }
-.specs .noise-warning { color: #a65f00; }
+.specs .noise-warning, .specs .spec-note { color: #a65f00; }
 fieldset { border: 0; padding: 0; margin: 0 0 28px; min-width: 0; }
 legend { padding: 0; margin-bottom: 12px; font-size: 18px; }
 .step { color: var(--muted); font-size: 13px; margin-right: 10px; }
