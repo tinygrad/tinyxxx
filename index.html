@@ -20,7 +20,7 @@
   <meta name="twitter:image" content="https://tinygrad.org/assets/tinybox/social.jpg">
   <meta name="twitter:image:alt" content="The new tinybox, front view">
   <link rel="stylesheet" href="assets/tinybox.css">
-  <script src="assets/tinybox.js?v=2269c2dd6655" defer></script>
+  <script src="assets/tinybox.js?v=f0fb6d04e022" defer></script>
 </head>
 <body>
   <header>
@@ -145,10 +145,17 @@
       <section class="configuration" aria-labelledby="configure-title">
         <div class="section-heading">
           <h2 id="configure-title">Configure</h2>
+          <label class="mode-toggle" hidden>
+            <input id="advanced-mode" type="checkbox" role="switch" aria-controls="options"> Advanced
+          </label>
         </div>
         <noscript><p>Enable JavaScript to configure your tinybox, or <a href="https://tinycorp.myshopify.com/">visit the shop</a>.</p></noscript>
         <form id="configurator" hidden>
-          <div id="options"></div>
+          <div id="presets">
+            <div id="preset-options"></div>
+            <p id="custom-config-note" class="checkout-note" hidden>Custom configuration. Choose a preset or switch to Advanced to keep editing.</p>
+          </div>
+          <div id="options" hidden></div>
           <div class="order">
             <div class="total-row">
               <span id="order-model">Your tinybox</span>

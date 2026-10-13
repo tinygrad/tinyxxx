@@ -34,11 +34,17 @@ const gpus = [
   { name: '2× NVIDIA RTX 6000', ...rtx, quantity: 2 },
   { name: '8x NVIDIA RTX 6000', ...rtx, quantity: 8, pro: true },
 ];
+const presets = [
+  { name: 'tinybox red flash', vendor: 'amd', platform: 0, memory: 0, storage: 0, gpu: gpus.findIndex(gpu => gpu.quantity === 6) },
+  { name: 'tinybox green workstation', vendor: 'nvidia', platform: 1, memory: 1, storage: 1, gpu: gpus.findIndex(gpu => gpu.quantity === 2) },
+  { name: 'tinybox pro', platform: 2, memory: 1, storage: 0, gpu: gpus.findIndex(gpu => gpu.pro) },
+];
 const shop = 'https://tinycorp.myshopify.com';
 const money = value => '$' + value.toLocaleString('en-US');
 const cost = item => item.price * (item.quantity || 1);
 const form = document.querySelector('#configurator');
 const checkout = document.querySelector('#checkout');
+const advancedMode = document.querySelector('#advanced-mode');
 
 function choices(name, options, selectedIndex = 0) {
   return options.map((option, index) => `
@@ -57,10 +63,24 @@ function choices(name, options, selectedIndex = 0) {
 
 function fieldset(name, title, step) {
   return `<fieldset id="${name}-fieldset">
-    <legend><span class="step">0${step}</span>${title}</legend>
+    <legend>${step ? `<span class="step">0${step}</span>` : ''}${title}</legend>
     <div id="${name}-choices" class="choices ${name}"></div>
   </fieldset>`;
 }
+
+document.querySelector('#preset-options').innerHTML = fieldset('preset', 'Choose your tinybox');
+document.querySelector('#preset-choices').innerHTML = choices('preset', presets.map(preset => {
+  const platform = platforms[preset.platform];
+  const memory = platform.memory[preset.memory];
+  const extra = storage[preset.storage];
+  const gpu = gpus[preset.gpu];
+  return {
+    label: `<span>${preset.name.replace(/\b(red|green)\b/, '<span class="preset-$1">$1</span>')}</span>`,
+    vendor: preset.vendor,
+    description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${extra.name}` : ''}<br>${gpu.name}${gpu.architecture ? ` ${gpu.architecture}` : ''}<br>${gpu.ram * (gpu.quantity || 1)} GB GPU RAM · ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
+    detail: money([platform.base, memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
+  };
+}));
 
 document.querySelector('#options').innerHTML = [
   fieldset('platform', 'Platform', 1),
@@ -112,6 +132,25 @@ function renderPlatform() {
   renderStorage();
 }
 
+function applyPreset(index) {
+  const preset = presets[index];
+  form.elements.namedItem('platform').value = String(preset.platform);
+  renderMemory(preset.memory);
+  savedStorage = preset.storage;
+  if (!gpus[preset.gpu].pro) savedGpu = preset.gpu;
+  renderPlatform();
+  update();
+  renderGallery();
+}
+
+function syncPreset() {
+  const index = presets.findIndex(preset => ['platform', 'memory', 'storage', 'gpu'].every(name => preset[name] === selected(name)));
+  for (const input of form.querySelectorAll('input[name="preset"]')) {
+    input.checked = Number(input.value) === index;
+  }
+  document.querySelector('#custom-config-note').hidden = index !== -1;
+}
+
 function selection() {
   const platform = platforms[selected('platform')];
   const memory = platform.memory[selected('memory')];
@@ -123,6 +162,7 @@ function selection() {
 }
 
 function update() {
+  syncPreset();
   const { platform, base, memory, extra, gpu, items, ready } = selection();
   const pro = isPro();
   const priced = base.price != null;
@@ -170,7 +210,16 @@ function update() {
     : 'Checkout not connected.';
 }
 
+advancedMode.addEventListener('change', () => {
+  document.querySelector('#options').hidden = !advancedMode.checked;
+  document.querySelector('#presets').hidden = advancedMode.checked;
+});
+
 form.addEventListener('change', event => {
+  if (event.target.name === 'preset') {
+    applyPreset(selected('preset'));
+    return;
+  }
   if (event.target.name === 'platform') {
     renderMemory(selected('memory'));
     renderPlatform();
@@ -191,11 +240,6 @@ form.addEventListener('submit', event => {
     window.location.assign(`${shop}/cart/${cart}`);
   }
 });
-renderMemory();
-renderPlatform();
-update();
-form.hidden = false;
-
 let currentView = 'front';
 const photos = document.querySelectorAll('.photo-stage img');
 const viewButtons = document.querySelectorAll('.views button');
@@ -223,4 +267,7 @@ viewButtons.forEach(button => {
     renderGallery();
   });
 });
-renderGallery();
+applyPreset(0);
+advancedMode.checked = false;
+document.querySelector('.mode-toggle').hidden = false;
+form.hidden = false;
