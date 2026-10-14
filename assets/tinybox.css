@@ -40,8 +40,8 @@ h1 span { color: var(--accent); }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
 h2 { font-size: 24px; margin: 0; }
 .section-heading > span { font-size: 14px; white-space: nowrap; }
-.mode-toggle { display: flex; align-items: center; gap: 8px; padding: 8px 0; font-size: 13px; cursor: pointer; }
-.mode-toggle input { width: 16px; height: 16px; margin: 0; accent-color: #111; cursor: pointer; }
+#back-to-models { padding: 8px 0; border: 0; background: none; color: inherit; font-size: 13px; text-underline-offset: 4px; }
+#back-to-models:hover { text-decoration: underline; }
 .specs { margin-top: 32px; }
 .specs h2 { font-size: 20px; }
 .specs dl { font-size: 16px; margin: 18px 0; }
@@ -58,6 +58,9 @@ legend { padding: 0; margin-bottom: 12px; font-size: 18px; }
 .preset .choice-description { line-height: 1.6; }
 .preset-red { color: #d21920; }
 .preset-green { color: #4c7800; }
+#customize-own { padding: 0; border: 0; background: #fff; color: inherit; text-align: left; }
+#customize-own .choice-title { justify-content: space-between; }
+#customize-own .choice-title::before { content: none; }
 .choices.platform { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .choice:has(input:disabled) { cursor: not-allowed; }
 .choice input:disabled + .choice-content { opacity: 0.5; background: #f5f5f5; border-color: var(--line); }

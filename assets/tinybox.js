@@ -44,7 +44,7 @@ const money = value => '$' + value.toLocaleString('en-US');
 const cost = item => item.price * (item.quantity || 1);
 const form = document.querySelector('#configurator');
 const checkout = document.querySelector('#checkout');
-const advancedMode = document.querySelector('#advanced-mode');
+const backToModels = document.querySelector('#back-to-models');
 
 function choices(name, options, selectedIndex = 0) {
   return options.map((option, index) => `
@@ -80,7 +80,13 @@ document.querySelector('#preset-choices').innerHTML = choices('preset', presets.
     description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${extra.name}` : ''}<br>${gpu.name}${gpu.architecture ? ` ${gpu.architecture}` : ''}<br>${gpu.ram * (gpu.quantity || 1)} GB GPU RAM · ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
     detail: money([platform.base, memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
   };
-}));
+})) + `
+  <button id="customize-own" class="choice" type="button" aria-controls="options">
+    <span class="choice-content">
+      <span class="choice-title">Customize my own <span aria-hidden="true">→</span></span>
+    </span>
+  </button>
+`;
 
 document.querySelector('#options').innerHTML = [
   fieldset('platform', 'Platform', 1),
@@ -215,12 +221,19 @@ function update() {
     : 'Checkout not connected.';
 }
 
-advancedMode.addEventListener('change', () => {
-  if (!advancedMode.checked) {
-    applyPreset(presets.findIndex(preset => preset.platform === selected('platform')));
-  }
-  document.querySelector('#options').hidden = !advancedMode.checked;
-  document.querySelector('#presets').hidden = advancedMode.checked;
+function renderMode(customizing) {
+  document.querySelector('#options').hidden = !customizing;
+  document.querySelector('#presets').hidden = customizing;
+  backToModels.hidden = !customizing;
+}
+backToModels.addEventListener('click', () => {
+  applyPreset(presets.findIndex(preset => preset.platform === selected('platform')));
+  renderMode(false);
+  document.querySelector('#preset-choices input:checked').focus({ preventScroll: true });
+});
+document.querySelector('#customize-own').addEventListener('click', () => {
+  renderMode(true);
+  document.querySelector('#platform-choices input:checked').focus({ preventScroll: true });
 });
 
 form.addEventListener('change', event => {
@@ -275,6 +288,5 @@ viewButtons.forEach(button => {
   });
 });
 applyPreset(0);
-advancedMode.checked = false;
-document.querySelector('.mode-toggle').hidden = false;
+renderMode(false);
 form.hidden = false;
