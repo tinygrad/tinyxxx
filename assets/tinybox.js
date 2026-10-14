@@ -237,6 +237,7 @@ function navigateMode(customizing) {
   document.querySelector(customizing ? '#platform-choices input:checked' : '#preset-choices input:checked')
     .focus({ preventScroll: true });
 }
+window.history.scrollRestoration = 'manual';
 backToModels.addEventListener('click', () => window.history.back());
 document.querySelector('#customize-own').addEventListener('click', () => {
   window.history.pushState({ ...window.history.state, tinyboxMode: 'customize' }, '');
