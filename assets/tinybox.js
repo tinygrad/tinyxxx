@@ -98,7 +98,7 @@ document.querySelector('#options').innerHTML = [
 document.querySelector('#platform-choices').innerHTML = choices('platform', platforms.map(platform => ({
   label: platform.name,
   detail: platform.name === 'pro'
-    ? `5U rackmount<br>Dual GENOA<br>PCIe 5<br>${money(platform.base.price)} base`
+    ? `5U rack<br>Dual GENOA<br>PCIe 5<br>${money(platform.base.price)} base`
     : `${platform.ddr}<br>${platform.cpu}<br>${platform.pcie}<br>${money(platform.base.price)} base`,
 })));
 for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
@@ -222,18 +222,28 @@ function update() {
 }
 
 function renderMode(customizing) {
+  const scrollTop = window.scrollY;
   document.querySelector('#options').hidden = !customizing;
   document.querySelector('#presets').hidden = customizing;
   backToModels.hidden = !customizing;
+  // Keep browser scroll anchoring from moving the page when the form changes height.
+  window.scrollTo(0, scrollTop);
 }
-backToModels.addEventListener('click', () => {
-  applyPreset(presets.findIndex(preset => preset.platform === selected('platform')));
-  renderMode(false);
-  document.querySelector('#preset-choices input:checked').focus({ preventScroll: true });
-});
+function navigateMode(customizing) {
+  if (!customizing) {
+    applyPreset(presets.findIndex(preset => preset.platform === selected('platform')));
+  }
+  renderMode(customizing);
+  document.querySelector(customizing ? '#platform-choices input:checked' : '#preset-choices input:checked')
+    .focus({ preventScroll: true });
+}
+backToModels.addEventListener('click', () => window.history.back());
 document.querySelector('#customize-own').addEventListener('click', () => {
-  renderMode(true);
-  document.querySelector('#platform-choices input:checked').focus({ preventScroll: true });
+  window.history.pushState({ ...window.history.state, tinyboxMode: 'customize' }, '');
+  navigateMode(true);
+});
+window.addEventListener('popstate', event => {
+  navigateMode(event.state?.tinyboxMode === 'customize');
 });
 
 form.addEventListener('change', event => {
@@ -290,3 +300,9 @@ viewButtons.forEach(button => {
 applyPreset(0);
 renderMode(false);
 form.hidden = false;
+if (window.history.state?.tinyboxMode === 'customize') {
+  // Refresh returns to the existing models entry, rather than creating a duplicate.
+  window.history.back();
+} else {
+  window.history.replaceState({ ...window.history.state, tinyboxMode: 'models' }, '');
+}
