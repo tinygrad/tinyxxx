@@ -25,7 +25,7 @@ const storage = [
   { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
 ];
 // GPU RAM (GB) and memory bandwidth (GB/s) are per card; multiply by quantity for aggregate totals.
-const rtx = { price: 19000, id: '67507610321114', ram: 96, bandwidth: 1792, vendor: 'nvidia', architecture: 'Blackwell' }; // One RTX 6000; quantities 1, 2, or 8.
+const rtx = { outOfStock: true, price: 19000, id: '67507610321114', ram: 96, bandwidth: 1792, vendor: 'nvidia', architecture: 'Blackwell' }; // One RTX 6000; quantities 1, 2, or 8.
 const gpus = [
   { name: 'None', price: 0, ram: 0, bandwidth: 0 },
   { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
@@ -55,7 +55,7 @@ function choices(name, options, selectedIndex = 0) {
           <span class="choice-title">${option.label}</span>
           ${option.description ? `<span class="choice-description">${option.description}</span>` : ''}
         </span>
-        <span class="choice-price">${option.detail}</span>
+        <span class="choice-price">${option.detail}${option.outOfStock ? '<br>Out of stock' : ''}</span>
       </span>
     </label>
   `).join('');
@@ -77,6 +77,7 @@ document.querySelector('#preset-choices').innerHTML = choices('preset', presets.
   return {
     label: `<span>${preset.name.replace(/\b(red|green)\b/, '<span class="preset-$1">$1</span>')}</span>`,
     vendor: preset.vendor,
+    outOfStock: gpu.outOfStock,
     description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${extra.name}` : ''}<br>${gpu.name}${gpu.architecture ? ` ${gpu.architecture}` : ''}<br>${gpu.ram * (gpu.quantity || 1)} GB GPU RAM · ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
     detail: money([platform.base, memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
   };
@@ -105,6 +106,7 @@ for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
   document.querySelector(`#${name}-choices`).innerHTML = choices(name, options.map(option => ({
     label: option.name,
     vendor: option.vendor,
+    outOfStock: option.outOfStock,
     detail: option.price ? '+' + money(cost(option)) : (option.detail || 'No extra cost'),
   })));
 }
@@ -168,7 +170,7 @@ function selection() {
   const gpu = gpus[selected('gpu')];
   const valid = compatible(platform, extra, gpu);
   const items = [base, memory, extra, gpu].filter(item => item.price > 0);
-  return { platform, base, memory, extra, gpu, items, valid, ready: valid && base.price != null && Boolean(base.id) && items.every(item => item.id) };
+  return { platform, base, memory, extra, gpu, items, valid, ready: valid && base.price != null && Boolean(base.id) && items.every(item => item.id && !item.outOfStock) };
 }
 
 function update() {
@@ -180,7 +182,7 @@ function update() {
   document.querySelector('#total').value = priced ? money(items.reduce((sum, item) => sum + cost(item), 0)) : '—';
   document.querySelector('.currency').hidden = !priced;
   document.querySelector('#order-model').textContent = pro ? 'Your tinybox pro' : 'Your tinybox';
-  document.querySelector('#lead-time').textContent = 'Ships in 1–8 weeks.';
+  document.querySelector('#lead-time').textContent = gpu.outOfStock ? 'Out of stock.' : 'Ships in 1–8 weeks.';
   document.querySelector('#shipping-terms').textContent = pro
     ? 'Fully insured freight shipping worldwide, approximately $800–1,800 depending on location. If your country appears at checkout, we ship there.'
     : 'Fully insured UPS shipping worldwide. If your country appears at checkout, we ship there. Allow 3–10 days for delivery after dispatch.';
@@ -216,7 +218,7 @@ function update() {
   checkout.disabled = !ready;
   const note = document.querySelector('#checkout-note');
   note.hidden = ready;
-  note.textContent = !valid ? 'Choose compatible storage and GPUs.' : pro
+  note.textContent = gpu.outOfStock ? 'RTX 6000 GPUs are out of stock.' : !valid ? 'Choose compatible storage and GPUs.' : pro
     ? (priced ? 'Pro checkout not connected yet.' : 'Pro base pricing and checkout are not connected yet.')
     : 'Checkout not connected.';
 }
