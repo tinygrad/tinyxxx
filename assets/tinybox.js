@@ -55,7 +55,7 @@ function choices(name, options, selectedIndex = 0) {
           <span class="choice-title">${option.label}</span>
           ${option.description ? `<span class="choice-description">${option.description}</span>` : ''}
         </span>
-        <span class="choice-price">${option.detail}${option.outOfStock ? '<br>Out of stock' : ''}</span>
+        <span class="choice-price">${option.detail}</span>
       </span>
     </label>
   `).join('');
@@ -77,7 +77,6 @@ document.querySelector('#preset-choices').innerHTML = choices('preset', presets.
   return {
     label: `<span>${preset.name.replace(/\b(red|green)\b/, '<span class="preset-$1">$1</span>')}</span>`,
     vendor: preset.vendor,
-    outOfStock: gpu.outOfStock,
     description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${extra.name}` : ''}<br>${gpu.name}${gpu.architecture ? ` ${gpu.architecture}` : ''}<br>${gpu.ram * (gpu.quantity || 1)} GB GPU RAM · ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
     detail: money([platform.base, memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
   };
@@ -106,7 +105,6 @@ for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
   document.querySelector(`#${name}-choices`).innerHTML = choices(name, options.map(option => ({
     label: option.name,
     vendor: option.vendor,
-    outOfStock: option.outOfStock,
     detail: option.price ? '+' + money(cost(option)) : (option.detail || 'No extra cost'),
   })));
 }
