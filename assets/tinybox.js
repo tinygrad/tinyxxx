@@ -29,7 +29,7 @@ const rtx = { outOfStock: true, price: 19000, id: '67507610321114', ram: 96, ban
 const gpus = [
   { name: 'None', price: 0, ram: 0, bandwidth: 0 },
   { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
-  { name: '6× AMD R9700', price: 2000, id: '67533174571226', ram: 32, bandwidth: 640, quantity: 6, vendor: 'amd', note: 'limited to 225W', noise: '< 60 dB, GPU blowers are audible' },
+  { name: '6× AMD R9700', price: 2500, id: '67533174571226', ram: 32, bandwidth: 640, quantity: 6, vendor: 'amd', note: 'limited to 225W', noise: '< 60 dB, GPU blowers are audible' },
   { name: '1× NVIDIA RTX 6000', ...rtx, quantity: 1 },
   { name: '2× NVIDIA RTX 6000', ...rtx, quantity: 2 },
   { name: '8x NVIDIA RTX 6000', ...rtx, quantity: 8, pro: true },
