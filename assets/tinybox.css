@@ -57,16 +57,13 @@ legend { padding: 0; margin-bottom: 12px; font-size: 18px; }
 .preset .choice-title { line-height: 1.4; }
 .preset .choice-description { line-height: 1.6; }
 .preset-red { color: #d21920; }
-.preset-green { color: #4c7800; }
 #customize-own { padding: 0; border: 0; background: #fff; color: inherit; text-align: left; }
 #customize-own .choice-title { justify-content: space-between; }
 #customize-own .choice-title::before { content: none; }
-.choices.platform { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .choice:has(input:disabled) { cursor: not-allowed; }
 .choice input:disabled + .choice-content { opacity: 0.5; background: #f5f5f5; border-color: var(--line); }
 .choice { position: relative; cursor: pointer; --choice-accent: #111; --choice-selected-bg: #fff; }
 .choice[data-vendor="amd"] { --choice-accent: #ed1c24; --choice-selected-bg: #fff5f5; }
-.choice[data-vendor="nvidia"] { --choice-accent: #76b900; --choice-selected-bg: #f7faef; }
 .choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .choice-content { display: flex; flex-direction: column; gap: 9px; height: 100%; border: 1px solid var(--line); padding: 15px; }
 .choice-title { display: flex; align-items: center; gap: 8px; font-size: 16px; }
