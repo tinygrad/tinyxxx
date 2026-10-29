@@ -17,6 +17,7 @@ const storage = [
   { name: 'None', price: 0, detail: 'Boot drive only' },
   { name: '4 TB RAID', drives: '4x 1 TB drives', price: 2000, id: '67507609764058' },
   { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
+  { name: '4x 4 TB RAID', drives: '16x 1 TB drives', description: '238.4 GB/s bandwidth · G5 only', platform: 'G5', usbBoot: true, price: 2000, quantity: 4, id: '67507609764058' },
 ];
 // GPU RAM (GB) and memory bandwidth (GB/s) are per card; multiply by quantity for aggregate totals.
 const r9700 = { price: 2500, id: '67533174571226', ram: 32, bandwidth: 640, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' }; // One R9700; quantities 4 or 6.
@@ -29,7 +30,7 @@ const gpus = [
 const presets = [
   { name: 'tinybox base', platform: 0, memory: 0, storage: 0, gpu: 0 },
   { name: 'tinybox red flash', vendor: 'amd', platform: 0, memory: 0, storage: 0, gpu: gpus.findIndex(gpu => gpu.quantity === 6) },
-  { name: 'tinybox workstation', platform: 1, memory: 1, storage: 1, gpu: 0 },
+  { name: 'tinybox red kimi', vendor: 'amd', platform: 1, memory: 0, storage: 3, gpu: 2, storageDescription: 'ultra fast 16TB RAID' },
 ];
 const shop = 'https://tinycorp.myshopify.com';
 const money = value => '$' + value.toLocaleString('en-US');
@@ -69,7 +70,7 @@ document.querySelector('#preset-choices').innerHTML = choices('preset', presets.
   return {
     label: `<span>${preset.name.replace(/\bred\b/, '<span class="preset-red">red</span>')}</span>`,
     vendor: preset.vendor,
-    description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${extra.name}` : ''}<br>${gpu.quantity ? `${gpu.name}<br>${gpu.ram * gpu.quantity} GB GPU RAM · ${(gpu.bandwidth * gpu.quantity).toLocaleString('en-US')} GB/s` : 'Bring your own GPUs · Fits up to 4'}`,
+    description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${preset.storageDescription || extra.name}` : ''}<br>${gpu.quantity ? `${gpu.name}<br>${gpu.ram * gpu.quantity} GB GPU RAM · ${(gpu.bandwidth * gpu.quantity).toLocaleString('en-US')} GB/s` : 'Bring your own GPUs · Fits up to 4'}`,
     detail: money([platform.base, memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
   };
 })) + `
@@ -94,6 +95,7 @@ document.querySelector('#platform-choices').innerHTML = choices('platform', plat
 for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
   document.querySelector(`#${name}-choices`).innerHTML = choices(name, options.map(option => ({
     label: option.name,
+    description: option.description,
     vendor: option.vendor,
     detail: option.price ? '+' + money(cost(option)) : (option.detail || 'No extra cost'),
   })));
@@ -108,14 +110,19 @@ function renderMemory(selectedIndex = 0) {
   })), selectedIndex);
 }
 
+function supportsStorage(platform, extra) {
+  return !extra.platform || extra.platform === platform.name;
+}
 function compatible(extra, gpu) {
-  return !extra.price || gpu.quantity !== 6;
+  return (extra.quantity || 1) === 1 || gpu.quantity !== 6;
 }
 function renderAvailability() {
+  const platform = platforms[selected('platform')];
   const extra = storage[selected('storage')];
   const gpu = gpus[selected('gpu')];
   for (const input of form.querySelectorAll('input[name="storage"]')) {
-    input.disabled = !compatible(storage[Number(input.value)], gpu);
+    const option = storage[Number(input.value)];
+    input.disabled = !supportsStorage(platform, option) || !compatible(option, gpu);
   }
   for (const input of form.querySelectorAll('input[name="gpu"]')) {
     input.disabled = !compatible(extra, gpus[Number(input.value)]);
@@ -144,7 +151,7 @@ function selection() {
   const base = platform.base;
   const extra = storage[selected('storage')];
   const gpu = gpus[selected('gpu')];
-  const valid = compatible(extra, gpu);
+  const valid = supportsStorage(platform, extra) && compatible(extra, gpu);
   const items = [base, memory, extra, gpu].filter(item => item.price > 0);
   return { platform, base, memory, extra, gpu, items, valid, ready: valid && base.price != null && Boolean(base.id) && items.every(item => item.id && !item.outOfStock) };
 }
@@ -164,7 +171,7 @@ function update() {
     cpu: `32 core ${platform.cpu}, water cooled`,
     memory: `${memory.gb} GB ${platform.ddr}`,
     storage: '1 TB boot SSD' + (extra.price ? ` + ${extra.drives}` : ''),
-    networking: platform.networking || 'Not specified',
+    networking: (extra.quantity === 4 ? platform.networking?.replace(/ \+ OCP3\.0.*$/, '') : platform.networking) || 'Not specified',
     gpu: gpu.name,
     'gpu-ram': `${gpu.ram * (gpu.quantity || 1)} GB, ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
     power: '1700W PSU, 100V~240V',
@@ -175,6 +182,12 @@ function update() {
   };
   for (const [name, value] of Object.entries(specs)) {
     document.querySelector(`#spec-${name}`).textContent = value;
+  }
+  if (extra.usbBoot || (extra.price > 0 && gpu.quantity === 6)) {
+    const warning = document.createElement('span');
+    warning.className = 'storage-warning';
+    warning.textContent = 'USB';
+    document.querySelector('#spec-storage').replaceChildren('1 TB ', warning, ` boot SSD + ${extra.drives}`);
   }
   if (gpu.note) {
     const note = document.createElement('span');
@@ -191,7 +204,7 @@ function update() {
   checkout.disabled = !ready;
   const note = document.querySelector('#checkout-note');
   note.hidden = ready;
-  note.textContent = gpu.outOfStock ? 'Selected GPUs are out of stock.' : !valid ? '6× R9700 GPUs cannot be combined with extra RAID storage.' : 'Checkout not connected.';
+  note.textContent = gpu.outOfStock ? 'Selected GPUs are out of stock.' : !supportsStorage(platform, extra) ? 'Selected storage requires G5.' : !valid ? '6× R9700 GPUs cannot be combined with 4x 4 TB RAID storage.' : 'Checkout not connected.';
 }
 
 function renderMode(customizing) {
@@ -227,6 +240,9 @@ form.addEventListener('change', event => {
     return;
   }
   if (event.target.name === 'platform') {
+    if (!supportsStorage(platforms[selected('platform')], storage[selected('storage')])) {
+      form.elements.namedItem('storage').value = '0';
+    }
     renderMemory(selected('memory'));
     renderGallery();
   }
@@ -265,7 +281,7 @@ viewButtons.forEach(button => {
     renderGallery();
   });
 });
-applyPreset(presets.findIndex(preset => preset.name === 'tinybox red flash'));
+applyPreset(presets.findIndex(preset => preset.name === 'tinybox base'));
 renderMode(false);
 form.hidden = false;
 if (window.history.state?.tinyboxMode === 'customize') {
