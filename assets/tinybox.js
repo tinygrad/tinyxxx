@@ -1,29 +1,30 @@
 // USD prices. Add Shopify IDs for the base systems and upgrades, not every
 // possible combination. Each ID is the purchasable variant of that one item.
-const ddr5Upgrade = { price: 8000, id: '67533223985370' }; // One 192 GB DDR5 upgrade.
+// Estimated installed weights in lbs, per unit (not shipping weights).
+const ddr5Upgrade = { price: 8000, weight: 0.2, id: '67533223985370' }; // One 192 GB DDR5 upgrade.
 const platforms = [
   { name: 'G4', ddr: 'DDR4', cpu: 'EPYC', pcie: 'PCIe 4', networking: '2× 1GbE + OCP3.0',
-    base: { price: 7000, id: '50492208677082' }, memory: [
+    base: { price: 7000, weight: 42, id: '50492208677082' }, memory: [
       { gb: 32, price: 0 },
-      { gb: 128, price: 3000, id: '67533222641882' },
+      { gb: 128, price: 3000, weight: 0.2, id: '67533222641882' },
     ] },
   { name: 'G5', ddr: 'DDR5', cpu: 'GENOA', pcie: 'PCIe 5', networking: '2× 10GbE + OCP3.0 PCIe5',
-    base: { price: 12000, id: '50492208611546' }, memory: [
+    base: { price: 12000, weight: 43, id: '50492208611546' }, memory: [
       { gb: 32, price: 0 },
       { gb: 192, ...ddr5Upgrade },
     ] },
 ];
 const storage = [
   { name: 'None', price: 0, detail: 'Boot drive only' },
-  { name: '4 TB RAID', drives: '4x 1 TB drives', price: 2000, id: '67507609764058' },
-  { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, id: '67507609796826' },
-  { name: '4x 4 TB RAID', drives: '16x 1 TB drives', description: '238.4 GB/s bandwidth · G5 only', platform: 'G5', usbBoot: true, price: 2000, quantity: 4, id: '67507609764058' },
+  { name: '4 TB RAID', drives: '4x 1 TB drives', price: 2000, weight: 0.75, id: '67507609764058' },
+  { name: '16 TB RAID', drives: '4x 4 TB drives', price: 6000, weight: 0.75, id: '67507609796826' },
+  { name: '4x 4 TB RAID', drives: '16x 1 TB drives', description: '238.4 GB/s bandwidth · G5 only', platform: 'G5', usbBoot: true, price: 2000, weight: 0.75, quantity: 4, id: '67507609764058' },
 ];
 // GPU RAM (GB) and memory bandwidth (GB/s) are per card; multiply by quantity for aggregate totals.
-const r9700 = { price: 2500, id: '67533174571226', ram: 32, bandwidth: 640, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' }; // One R9700; quantities 4 or 6.
+const r9700 = { price: 2500, weight: 2.5, id: '67533174571226', ram: 32, bandwidth: 640, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' }; // One R9700; quantities 4 or 6.
 const gpus = [
   { name: 'None', price: 0, ram: 0, bandwidth: 0 },
-  { name: '4× AMD 9070XT', price: 1000, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
+  { name: '4× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
   { name: '4× AMD R9700', ...r9700, quantity: 4 },
   { name: '6× AMD R9700', ...r9700, quantity: 6, note: 'limited to 225W' },
 ];
@@ -35,6 +36,7 @@ const presets = [
 const shop = 'https://tinycorp.myshopify.com';
 const money = value => '$' + value.toLocaleString('en-US');
 const cost = item => item.price * (item.quantity || 1);
+const weight = items => Math.round(items.reduce((sum, item) => sum + (item.weight || 0) * (item.quantity || 1), 0));
 const form = document.querySelector('#configurator');
 const checkout = document.querySelector('#checkout');
 const backToModels = document.querySelector('#back-to-models');
@@ -178,7 +180,7 @@ function update() {
     noise: gpu.noise || '< 50 dB, low speed Noctua fans',
     board: 'Server grade with BMC',
     slots: `Up to ${Math.max(4, gpu.quantity || 0)} GPUs, full-fabric PCIe`,
-    size: '42 lbs, 12″W × 19¼″H × 18″D',
+    size: `${weight([base, memory, extra, gpu])} lbs, 12″W × 19¼″H × 18″D`,
   };
   for (const [name, value] of Object.entries(specs)) {
     document.querySelector(`#spec-${name}`).textContent = value;
