@@ -31,13 +31,13 @@ const gpus = [
   { name: '4× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
   { name: '4× AMD R9700', ...r9700, quantity: 4 },
   { name: '6× AMD R9700', ...r9700, quantity: 6, note: 'limited to 225W' },
-  { name: '6× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 6, vendor: 'amd', tall: true, description: '3400W tall case only' },
-  { name: '14× AMD R9700', ...r9700, quantity: 14, tall: true, noOcp: true, description: '3400W tall case only · Uses OCP slot' },
+  { name: '6× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 6, vendor: 'amd', tall: true },
+  { name: '14× AMD R9700', ...r9700, quantity: 14, tall: true, noOcp: true, note: 'limited to 210W' },
 ];
 const presets = [
-  { name: 'tinybox base', power: 0, platform: 0, memory: 0, storage: 0, gpu: 0 },
   { name: 'tinybox red flash', vendor: 'amd', power: 0, platform: 0, memory: 0, storage: 0, gpu: gpus.findIndex(gpu => gpu.quantity === 6) },
   { name: 'tinybox red kimi', vendor: 'amd', power: 0, platform: 1, memory: 0, storage: 3, gpu: 2, storageDescription: 'ultra fast 16TB RAID' },
+  { name: 'tinybox red whale', vendor: 'amd', power: 1, platform: 1, memory: 0, storage: 1, gpu: gpus.findIndex(gpu => gpu.quantity === 14) },
 ];
 const shop = 'https://tinycorp.myshopify.com';
 const money = value => '$' + value.toLocaleString('en-US');
@@ -78,8 +78,8 @@ document.querySelector('#preset-choices').innerHTML = choices('preset', presets.
   return {
     label: `<span>${preset.name.replace(/\bred\b/, '<span class="preset-red">red</span>')}</span>`,
     vendor: preset.vendor,
-    description: `${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${preset.storageDescription || extra.name}` : ''}<br>${gpu.quantity ? `${gpu.name}<br>${gpu.ram * gpu.quantity} GB GPU RAM · ${(gpu.bandwidth * gpu.quantity).toLocaleString('en-US')} GB/s` : 'Bring your own GPUs · Fits up to 4'}`,
-    detail: money([platform.base, memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
+    description: `${preset.power === 1 ? 'Tall · ' : ''}${platform.name} · ${memory.gb} GB ${platform.ddr}${extra.price ? ` · ${preset.storageDescription || extra.name}` : ''}<br>${gpu.quantity ? `${gpu.name}<br>${gpu.ram * gpu.quantity} GB GPU RAM · ${(gpu.bandwidth * gpu.quantity).toLocaleString('en-US')} GB/s` : 'Bring your own GPUs · Fits up to 4'}`,
+    detail: money([platform.base, powers[preset.power], memory, extra, gpu].reduce((sum, item) => sum + cost(item), 0)),
   };
 })) + `
   <button id="customize-own" class="choice" type="button" aria-controls="options">
@@ -191,12 +191,12 @@ function update() {
     networking: (extra.quantity === 4 || gpu.noOcp ? platform.networking?.replace(/ \+ OCP3\.0.*$/, '') : platform.networking) || 'Not specified',
     gpu: gpu.name,
     'gpu-ram': `${gpu.ram * (gpu.quantity || 1)} GB, ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
-    power: `${power.watts}W${power.watts === 3400 ? ' (2× 1700W PSUs)' : ' PSU'}, 100V~240V`,
+    power: power.watts === 3400 ? '2x 1700W PSU' : '1700W PSU, 100V~240V',
     noise: gpu.noise || '< 50 dB, low speed Noctua fans',
     board: 'Server grade with BMC',
-    slots: `Up to ${Math.max(4, gpu.quantity || 0)} GPUs, full-fabric PCIe`,
-    // Tall case estimates: +10 lbs and one ATX PSU height (86 mm ≈ 3⅜″).
-    size: `${weight([base, power, memory, extra, gpu])} lbs, 12″W × ${power.watts === 3400 ? '22⅝' : '19¼'}″H × 18″D`,
+    slots: gpu.quantity === 14 ? 'Up to 14 GPUs, half width (8x) PCIe' : `Up to ${Math.max(power.watts === 3400 ? 6 : 4, gpu.quantity || 0)} GPUs, full-fabric PCIe`,
+    // Tall case: +10 lbs and 23″ height.
+    size: `${weight([base, power, memory, extra, gpu])} lbs, 12″W × ${power.watts === 3400 ? '23' : '19¼'}″H × 18″D`,
   };
   for (const [name, value] of Object.entries(specs)) {
     document.querySelector(`#spec-${name}`).textContent = value;
@@ -207,7 +207,7 @@ function update() {
     warning.textContent = 'USB';
     document.querySelector('#spec-storage').replaceChildren('1 TB ', warning, ` boot SSD + ${extra.drives}`);
   }
-  if (gpu.note) {
+  if (gpu.note && !(gpu.quantity === 6 && power.watts === 3400)) {
     const note = document.createElement('span');
     note.className = 'spec-note';
     note.textContent = ` (${gpu.note})`;
@@ -306,7 +306,7 @@ viewButtons.forEach(button => {
     renderGallery();
   });
 });
-applyPreset(presets.findIndex(preset => preset.name === 'tinybox base'));
+applyPreset(0);
 renderMode(false);
 form.hidden = false;
 if (window.history.state?.tinyboxMode === 'customize') {
