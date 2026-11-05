@@ -1,6 +1,10 @@
 // USD prices. Add Shopify IDs for the base systems and upgrades, not every
 // possible combination. Each ID is the purchasable variant of that one item.
 // Estimated installed weights in lbs, per unit (not shipping weights).
+const powers = [
+  { name: '1700W', watts: 1700, price: 0, description: 'Standard case' },
+  { name: '3400W', watts: 3400, price: 1000, weight: 10, id: '67971838771418', description: 'Tall case + second PSU' },
+];
 const ddr5Upgrade = { price: 8000, weight: 0.2, id: '67533223985370' }; // One 192 GB DDR5 upgrade.
 const platforms = [
   { name: 'G4', ddr: 'DDR4', cpu: 'EPYC', pcie: 'PCIe 4', networking: '2× 1GbE + OCP3.0',
@@ -21,17 +25,19 @@ const storage = [
   { name: '4x 4 TB RAID', drives: '16x 1 TB drives', description: '238.4 GB/s bandwidth · G5 only', platform: 'G5', usbBoot: true, price: 2000, weight: 0.75, quantity: 4, id: '67507609764058' },
 ];
 // GPU RAM (GB) and memory bandwidth (GB/s) are per card; multiply by quantity for aggregate totals.
-const r9700 = { price: 2500, weight: 2.5, id: '67533174571226', ram: 32, bandwidth: 640, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' }; // One R9700; quantities 4 or 6.
+const r9700 = { price: 2500, weight: 2.5, id: '67533174571226', ram: 32, bandwidth: 640, vendor: 'amd', noise: '< 60 dB, GPU blowers are audible' }; // One R9700; quantities 4, 6, or 14.
 const gpus = [
   { name: 'None', price: 0, ram: 0, bandwidth: 0 },
   { name: '4× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
   { name: '4× AMD R9700', ...r9700, quantity: 4 },
   { name: '6× AMD R9700', ...r9700, quantity: 6, note: 'limited to 225W' },
+  { name: '6× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 6, vendor: 'amd', tall: true, description: '3400W tall case only' },
+  { name: '14× AMD R9700', ...r9700, quantity: 14, tall: true, noOcp: true, description: '3400W tall case only · Uses OCP slot' },
 ];
 const presets = [
-  { name: 'tinybox base', platform: 0, memory: 0, storage: 0, gpu: 0 },
-  { name: 'tinybox red flash', vendor: 'amd', platform: 0, memory: 0, storage: 0, gpu: gpus.findIndex(gpu => gpu.quantity === 6) },
-  { name: 'tinybox red kimi', vendor: 'amd', platform: 1, memory: 0, storage: 3, gpu: 2, storageDescription: 'ultra fast 16TB RAID' },
+  { name: 'tinybox base', power: 0, platform: 0, memory: 0, storage: 0, gpu: 0 },
+  { name: 'tinybox red flash', vendor: 'amd', power: 0, platform: 0, memory: 0, storage: 0, gpu: gpus.findIndex(gpu => gpu.quantity === 6) },
+  { name: 'tinybox red kimi', vendor: 'amd', power: 0, platform: 1, memory: 0, storage: 3, gpu: 2, storageDescription: 'ultra fast 16TB RAID' },
 ];
 const shop = 'https://tinycorp.myshopify.com';
 const money = value => '$' + value.toLocaleString('en-US');
@@ -58,7 +64,7 @@ function choices(name, options, selectedIndex = 0) {
 
 function fieldset(name, title, step) {
   return `<fieldset id="${name}-fieldset">
-    <legend>${step ? `<span class="step">0${step}</span>` : ''}${title}</legend>
+    <legend>${step != null ? `<span class="step">0${step}</span>` : ''}${title}</legend>
     <div id="${name}-choices" class="choices ${name}"></div>
   </fieldset>`;
 }
@@ -84,6 +90,7 @@ document.querySelector('#preset-choices').innerHTML = choices('preset', presets.
 `;
 
 document.querySelector('#options').innerHTML = [
+  fieldset('power', 'Power', 0),
   fieldset('platform', 'Platform', 1),
   fieldset('memory', 'Memory', 2),
   fieldset('storage', 'Extra storage', 3),
@@ -94,7 +101,7 @@ document.querySelector('#platform-choices').innerHTML = choices('platform', plat
   label: platform.name,
   detail: `${platform.ddr}<br>${platform.cpu}<br>${platform.pcie}<br>${money(platform.base.price)} base`,
 })));
-for (const [name, options] of [['storage', storage], ['gpu', gpus]]) {
+for (const [name, options] of [['power', powers], ['storage', storage], ['gpu', gpus]]) {
   document.querySelector(`#${name}-choices`).innerHTML = choices(name, options.map(option => ({
     label: option.name,
     description: option.description,
@@ -116,7 +123,13 @@ function supportsStorage(platform, extra) {
   return !extra.platform || extra.platform === platform.name;
 }
 function compatible(extra, gpu) {
-  return (extra.quantity || 1) === 1 || gpu.quantity !== 6;
+  return (extra.quantity || 1) === 1 || !(gpu.quantity >= 6 || gpu.noOcp);
+}
+function supportsPower(power, gpu) {
+  return !gpu.tall || power.watts === 3400;
+}
+function matchesPreset(preset) {
+  return ['power', 'platform', 'memory', 'storage', 'gpu'].every(name => preset[name] === selected(name));
 }
 function renderAvailability() {
   const platform = platforms[selected('platform')];
@@ -127,11 +140,12 @@ function renderAvailability() {
     input.disabled = !supportsStorage(platform, option) || !compatible(option, gpu);
   }
   for (const input of form.querySelectorAll('input[name="gpu"]')) {
-    input.disabled = !compatible(extra, gpus[Number(input.value)]);
+    input.disabled = !compatible(extra, gpus[Number(input.value)]) || !supportsPower(powers[selected('power')], gpus[Number(input.value)]);
   }
 }
 function applyPreset(index) {
   const preset = presets[index];
+  form.elements.namedItem('power').value = String(preset.power);
   form.elements.namedItem('platform').value = String(preset.platform);
   renderMemory(preset.memory);
   form.elements.namedItem('storage').value = String(preset.storage);
@@ -141,7 +155,7 @@ function applyPreset(index) {
 }
 
 function syncPreset() {
-  const index = presets.findIndex(preset => ['platform', 'memory', 'storage', 'gpu'].every(name => preset[name] === selected(name)));
+  const index = presets.findIndex(matchesPreset);
   for (const input of form.querySelectorAll('input[name="preset"]')) {
     input.checked = Number(input.value) === index;
   }
@@ -153,19 +167,20 @@ function selection() {
   const base = platform.base;
   const extra = storage[selected('storage')];
   const gpu = gpus[selected('gpu')];
-  const valid = supportsStorage(platform, extra) && compatible(extra, gpu);
-  const items = [base, memory, extra, gpu].filter(item => item.price > 0);
-  return { platform, base, memory, extra, gpu, items, valid, ready: valid && base.price != null && Boolean(base.id) && items.every(item => item.id && !item.outOfStock) };
+  const power = powers[selected('power')];
+  const valid = supportsStorage(platform, extra) && compatible(extra, gpu) && supportsPower(power, gpu);
+  const items = [base, power, memory, extra, gpu].filter(item => item.price > 0);
+  return { platform, base, power, memory, extra, gpu, items, valid, ready: valid && base.price != null && Boolean(base.id) && items.every(item => item.id && !item.outOfStock) };
 }
 
 function update() {
   renderAvailability();
   syncPreset();
-  const { platform, base, memory, extra, gpu, items, valid, ready } = selection();
+  const { platform, base, power, memory, extra, gpu, items, valid, ready } = selection();
   const priced = base.price != null;
   document.querySelector('#total').value = priced ? money(items.reduce((sum, item) => sum + cost(item), 0)) : '—';
   document.querySelector('.currency').hidden = !priced;
-  const preset = presets.find(preset => ['platform', 'memory', 'storage', 'gpu'].every(name => preset[name] === selected(name)));
+  const preset = presets.find(matchesPreset);
   document.querySelector('#order-model').textContent = preset ? preset.name : 'Your tinybox';
   document.querySelector('#lead-time').textContent = gpu.outOfStock ? 'Out of stock.' : 'Ships in 1–8 weeks.';
   const specs = {
@@ -173,19 +188,20 @@ function update() {
     cpu: `32 core ${platform.cpu}, water cooled`,
     memory: `${memory.gb} GB ${platform.ddr}`,
     storage: '1 TB boot SSD' + (extra.price ? ` + ${extra.drives}` : ''),
-    networking: (extra.quantity === 4 ? platform.networking?.replace(/ \+ OCP3\.0.*$/, '') : platform.networking) || 'Not specified',
+    networking: (extra.quantity === 4 || gpu.noOcp ? platform.networking?.replace(/ \+ OCP3\.0.*$/, '') : platform.networking) || 'Not specified',
     gpu: gpu.name,
     'gpu-ram': `${gpu.ram * (gpu.quantity || 1)} GB, ${(gpu.bandwidth * (gpu.quantity || 1)).toLocaleString('en-US')} GB/s`,
-    power: '1700W PSU, 100V~240V',
+    power: `${power.watts}W${power.watts === 3400 ? ' (2× 1700W PSUs)' : ' PSU'}, 100V~240V`,
     noise: gpu.noise || '< 50 dB, low speed Noctua fans',
     board: 'Server grade with BMC',
     slots: `Up to ${Math.max(4, gpu.quantity || 0)} GPUs, full-fabric PCIe`,
-    size: `${weight([base, memory, extra, gpu])} lbs, 12″W × 19¼″H × 18″D`,
+    // Tall case estimates: +10 lbs and one ATX PSU height (86 mm ≈ 3⅜″).
+    size: `${weight([base, power, memory, extra, gpu])} lbs, 12″W × ${power.watts === 3400 ? '22⅝' : '19¼'}″H × 18″D`,
   };
   for (const [name, value] of Object.entries(specs)) {
     document.querySelector(`#spec-${name}`).textContent = value;
   }
-  if (extra.usbBoot || (extra.price > 0 && gpu.quantity === 6)) {
+  if (extra.usbBoot || (extra.price > 0 && gpu.quantity >= 6)) {
     const warning = document.createElement('span');
     warning.className = 'storage-warning';
     warning.textContent = 'USB';
@@ -206,7 +222,7 @@ function update() {
   checkout.disabled = !ready;
   const note = document.querySelector('#checkout-note');
   note.hidden = ready;
-  note.textContent = gpu.outOfStock ? 'Selected GPUs are out of stock.' : !supportsStorage(platform, extra) ? 'Selected storage requires G5.' : !valid ? '6× R9700 GPUs cannot be combined with 4x 4 TB RAID storage.' : 'Checkout not connected.';
+  note.textContent = gpu.outOfStock ? 'Selected GPUs are out of stock.' : !supportsStorage(platform, extra) ? 'Selected storage requires G5.' : !supportsPower(power, gpu) ? 'Selected GPUs require the 3400W tall case.' : !valid ? 'Selected GPUs cannot be combined with 4x 4 TB RAID storage.' : 'Checkout not connected.';
 }
 
 function renderMode(customizing) {
@@ -219,11 +235,11 @@ function renderMode(customizing) {
 }
 function navigateMode(customizing) {
   if (!customizing) {
-    const matching = presets.findIndex(preset => ['platform', 'memory', 'storage', 'gpu'].every(name => preset[name] === selected(name)));
+    const matching = presets.findIndex(matchesPreset);
     applyPreset(matching >= 0 ? matching : presets.findIndex(preset => preset.platform === selected('platform')));
   }
   renderMode(customizing);
-  document.querySelector(customizing ? '#platform-choices input:checked' : '#preset-choices input:checked')
+  document.querySelector(customizing ? '#power-choices input:checked' : '#preset-choices input:checked')
     .focus({ preventScroll: true });
 }
 window.history.scrollRestoration = 'manual';
@@ -240,6 +256,12 @@ form.addEventListener('change', event => {
   if (event.target.name === 'preset') {
     applyPreset(selected('preset'));
     return;
+  }
+  if (event.target.name === 'power') {
+    if (!supportsPower(powers[selected('power')], gpus[selected('gpu')])) {
+      form.elements.namedItem('gpu').value = '0';
+    }
+    renderGallery();
   }
   if (event.target.name === 'platform') {
     if (!supportsStorage(platforms[selected('platform')], storage[selected('storage')])) {
@@ -263,7 +285,8 @@ const photos = document.querySelectorAll('.photo-stage img');
 const viewButtons = document.querySelectorAll('.views button');
 function renderGallery() {
   const platform = platforms[selected('platform')].name;
-  const matches = item => !item.dataset.platform || item.dataset.platform === platform;
+  const power = String(powers[selected('power')].watts);
+  const matches = item => (item.dataset.power || '1700') === power && (!item.dataset.platform || item.dataset.platform === platform);
   if (![...viewButtons].some(button => matches(button) && button.dataset.view === currentView)) {
     currentView = 'front';
   }
