@@ -207,6 +207,12 @@ function update() {
     warning.textContent = 'USB';
     document.querySelector('#spec-storage').replaceChildren('1 TB ', warning, ` boot SSD + ${extra.drives}`);
   }
+  if (gpu.quantity === 14) {
+    const warning = document.createElement('span');
+    warning.className = 'spec-note';
+    warning.textContent = 'half width (8x) PCIe';
+    document.querySelector('#spec-slots').replaceChildren('Up to 14 GPUs, ', warning);
+  }
   if (gpu.note && !(gpu.quantity === 6 && power.watts === 3400)) {
     const note = document.createElement('span');
     note.className = 'spec-note';
