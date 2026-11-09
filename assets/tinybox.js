@@ -30,7 +30,7 @@ const gpus = [
   { name: 'None', price: 0, ram: 0, bandwidth: 0 },
   { name: '4× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 4, vendor: 'amd' },
   { name: '4× AMD R9700', ...r9700, quantity: 4 },
-  { name: '6× AMD R9700', ...r9700, quantity: 6, note: 'limited to 225W' },
+  { name: '6× AMD R9700', ...r9700, quantity: 6, note: 'limited to 210W' },
   { name: '6× AMD 9070XT', price: 1000, weight: 3, id: '67507611271386', ram: 16, bandwidth: 640, quantity: 6, vendor: 'amd', tall: true },
   { name: '14× AMD R9700', ...r9700, quantity: 14, tall: true, noOcp: true, note: 'limited to 210W' },
 ];
