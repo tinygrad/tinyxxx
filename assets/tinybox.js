@@ -182,7 +182,7 @@ function update() {
   document.querySelector('.currency').hidden = !priced;
   const preset = presets.find(matchesPreset);
   document.querySelector('#order-model').textContent = preset ? preset.name : 'Your tinybox';
-  document.querySelector('#lead-time').textContent = gpu.outOfStock ? 'Out of stock.' : 'Ships in 1–8 weeks.';
+  document.querySelector('#lead-time').textContent = gpu.outOfStock ? 'Out of stock.' : `Ships in 1–${power.watts === 3400 ? 12 : 8} weeks.`;
   const specs = {
     platform: `${platform.name} / ${platform.pcie}`,
     cpu: `32 core ${platform.cpu}, water cooled`,
