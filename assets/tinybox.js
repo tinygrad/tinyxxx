@@ -3,7 +3,7 @@
 // Estimated installed weights in lbs, per unit (not shipping weights).
 const powers = [
   { name: '1700W', watts: 1700, price: 0, description: 'Standard case' },
-  { name: '3400W', watts: 3400, price: 1000, weight: 10, id: '67971838771418', description: 'Tall case + second PSU' },
+  { name: '3400W', watts: 3400, price: 2000, weight: 10, id: '67971838771418', description: 'Tall case + second PSU' },
 ];
 const ddr5Upgrade = { price: 8000, weight: 0.2, id: '67533223985370' }; // One 192 GB DDR5 upgrade.
 const platforms = [
